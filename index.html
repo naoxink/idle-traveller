@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Idle Traveller</title>
+	<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="vendor/notifIt/css/notifIt.min.css">
+	<link rel="stylesheet" href="css/main.css?1041">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-38408823-2', 'auto');
+		ga('send', 'pageview');
+	</script>
+</head>
+<body>
+	<ul class="nav justify-content-center">
+		<span class="navbar-brand">idleTraveller</span>
+		<li class="nav-item">
+			<a class="nav-link" href="javascript:void(0)" id="btn-save"><i class="fa fa-save"></i> Save</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="javascript:void(0)" id="btn-load"><i class="fa fa-tasks"></i> Load</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="javascript:void(0)" id="btn-export"><i class="fa fa-code-fork"></i> Export save</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="javascript:void(0)" id="btn-import"><i class="fa fa-terminal"></i> Import save</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-danger" href="javascript:void(0)" id="btn-reset"><i class="fa fa-exclamation"></i> Reset</a>
+		</li>
+	</ul>
+	<div class="container">
+
+		<div id="export-save" style="display:none;">
+			<textarea cols="30" rows="10" class="form-control"></textarea>
+			<button class="btn btn-dark close-export-save">Close</button>
+		</div>
+
+		<div id="import-save" style="display:none;">
+			<textarea cols="30" rows="10" class="form-control"></textarea>
+			<button class="btn btn-dark cancel-import-save">Cancel</button>
+			<button class="btn btn-dark close-import-save">Import</button>
+		</div>
+
+		<div class="row">
+			<div class="col-6 text-center">
+				<h1 class="length-content"><span id="length">0 mm</span></h1>
+				<p class="text-muted" id="length-detail">0 m/s</p>
+				<div class="progress" style="margin-left:10px;margin-right:10px;">
+					<div class="progress-bar bg-warning" id="boostbar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+				</div>
+				<button type="button" id="btn-rest" class="btn">Rest</button>
+			</div>
+			<div class="col-6">
+				<div class="section">
+					<p class="title">Info</p>
+					<ul id="info">
+						<li><strong>Game version: </strong><span id="game-version"></span></li>
+						<li><strong>Run start: </strong><span id="run-start"></span></li>
+						<li><strong>Actual session time: </strong><span id="session-time"></span></li>
+						<li><strong>Rests: </strong><span id="rest-count">0</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-6">
+				<div class="section">
+					<p class="title">Upgrade</p>
+					<div id="upgrades"></div>
+				</div>
+				<div class="section">
+					<p class="title">Learning</p>
+					<div id="learnings"></div>
+				</div>
+				<div class="section">
+					<p class="title">Achievements</p>
+					<div id="achievements">
+						<table class="table table-bordered table-hover"></table>
+					</div>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="section">
+					<p class="title">Learnings</p>
+					<div id="learnings-owned"></div>
+				</div>
+				<div class="section">
+					<p class="title">Upgrades owned</p>
+					<div id="upgrades-owned"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+	<script src="vendor/notifIt/js/notifIt.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Game -->
+	<script src="js/achievements.js?1041"></script>
+	<script src="js/core.js?1041"></script>
+	<script src="js/stats.js?1041"></script>
+	<script src="js/upgrades.js?1041"></script>
+	<script src="js/shop.js?1041"></script>
+	<script src="js/main.js?1041"></script>
+</body>
+</html>
