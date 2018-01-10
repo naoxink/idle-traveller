@@ -1,8 +1,10 @@
 window.Core = {  }
 
 Core.fps = 30
-Core.version = '1.0.41'
+Core.version = '1.0.44'
 Core.timer = null
+
+Core.allUpgradesBought = false
 
 Core.init = function(){
 	Core.get('#game-version').innerHTML = Core.version
@@ -35,18 +37,19 @@ Core.stop = function(){
 }
 
 Core.updateHUD = function(){
-	if(!Shop.showing){
-		Shop.unlockNext()
+	if(!Shop.showingLearning && !Shop.allLearningsBought){
+		Shop.unlockNextLearning()
 	}
 	Shop.updateShowingItemCost()
+	// Shop.updateShowingPerksCost() 
 	Core._length.innerHTML = Core.formatLength(Stats.totalLength)
 	if(Stats.multiplier === 1){
 		Core._lengthDetail.innerHTML = Core.formatLength(Stats.increment) + '/s'
 	}else if(Stats.multiplier > 1){
 		Core._lengthDetail.innerHTML = Core.formatLength(Stats.increment * Stats.multiplier) + '/s (' + Core.formatLength(Stats.increment) + '/s x' + parseFloat(Stats.multiplier).toFixed(1) + ')'
 	}
-	Core._sessionTime.innerHTML = Core.timeFormat(new Date() - Stats.sessionStart.getTime())
-        Core._restCount.innerHTML = Stats.rests
+	Core._sessionTime.innerHTML = Core.timeFormat(new Date().getTime() - Stats.sessionStart.getTime())
+    Core._restCount.innerHTML = Stats.rests
 	// Mejoras visibles
 	var visibleUpgrades = Core.get('#upgrades .upgrade')
 	if(Core.isNode(visibleUpgrades)){
@@ -131,6 +134,7 @@ Core.save = function(){
 	window.localStorage.setItem('multiplier', Stats.multiplier)
 	window.localStorage.setItem('upgrades', JSON.stringify(Stats.upgrades))
 	window.localStorage.setItem('learnings', JSON.stringify(Stats.learnings))
+	window.localStorage.setItem('perks', JSON.stringify(Stats.perks))
 	window.localStorage.setItem('runStartDate', Stats.runStartDate)
 	window.localStorage.setItem('nextUpgradeCost', Stats.nextUpgradeCost)
 	// Logros
@@ -170,6 +174,7 @@ Core.load = function(){
 		Stats.runStartDate = new Date(window.localStorage.getItem('runStartDate'))
 		Stats.upgrades = JSON.parse(window.localStorage.getItem('upgrades'))
 		Stats.learnings = JSON.parse(window.localStorage.getItem('learnings'))
+		Stats.perks = JSON.parse(window.localStorage.getItem('perks'))
 		Stats.rests = parseInt(window.localStorage.getItem('rests'), 10)
 		Stats.nextUpgradeCost = parseFloat(window.localStorage.getItem('nextUpgradeCost'))
 		if(window.localStorage.getItem('actualRestDate')){
@@ -193,7 +198,7 @@ Core.load = function(){
 				Shop.learnings[Stats.learnings[i]].learn()
 			}
 		}
-		Shop.unlockNext(Stats.learnings[Stats.learnings.length - 1])
+		Shop.unlockNextLearning(Stats.learnings[Stats.learnings.length - 1])
 		// Logros
 		var achievementsStrBin = window.localStorage.getItem('walker-achievements')
 		if(achievementsStrBin){
@@ -219,6 +224,7 @@ Core.load = function(){
 		Core.updateHUD()
 		notif({ 'type': 'success', 'msg': 'Game loaded!' })
 		Core._runStart.innerHTML = Stats.runStartDate.toString()
+		Core.showLastRestDate()
 	}else{
 		return notif({
 			'type': 'error',
@@ -275,12 +281,14 @@ Core.unlockNextUpgrade = function(upgradeID){
 	var found = false
 	for(var id in Upgrades){
 		if(found){
-			Core.unlockUpgrade(id)
-			break
+			return Core.unlockUpgrade(id)
 		}
 		if(id === upgradeID){
 			found = true
 		}
+	}
+	if(found){
+		Core.allUpgradesBought = true
 	}
 }
 
@@ -289,12 +297,31 @@ Core.buyUpgrade = function(upgrade){
 	if(upgrade.multiplier && upgrade.multiplier !== 1){
 		Stats.multiplier += upgrade.multiplier
 	}
-	Stats.increment += 6 * Math.floor(Math.pow(1.6, Stats.upgrades.length))
+	// Stats.increment += 6 * Math.floor(Math.pow(1.6, Stats.upgrades.length))
 	upgrade.effect()
 	upgrade.visible = false
 	upgrade.owned = true
 	Stats.upgrades.push(upgrade.id)
-	Core.calcNextUpgradeCost()
+	
+	var incc = 1.7
+	var incv = 3
+	var o1 = 1000
+	var v0 = 1
+
+	var ciclo = Stats.upgrades.length + 1
+	if(ciclo > 0){
+		Stats.increment = v0 * Math.pow(incv, ciclo)
+		coste = o1 * Math.pow(incc, ciclo)
+		var va = (v0 * Math.pow(incv, (ciclo-2)))
+		if(ciclo == 1){
+			va = v0
+		}
+		Stats.nextUpgradeCost = coste * va
+	}else{
+		Stats.increment = v0
+		Stats.nextUpgradeCost = o1
+	}
+
 	Core.addUpgrade(upgrade)
 	Core.unlockNextUpgrade(upgrade.id)
 }
@@ -305,7 +332,12 @@ Core.addUpgrade = function(upgrade){
 	span.className = 'btn btn-info upgrade-owned'
 	span.title = upgrade.description
 	span.innerHTML = upgrade.name
-	Core._upgradesOwned.appendChild(span)
+	var _first = Core._upgradesOwned.querySelector('.upgrade-owned:first-child')
+	if(_first){
+		Core._upgradesOwned.insertBefore(span, Core._upgradesOwned.firstChild)
+	}else{
+		Core._upgradesOwned.appendChild(span)
+	}
 }
 
 Core.calcNextUpgradeCost = function(){
@@ -413,8 +445,12 @@ Core.calcMultiplier = function(){
 			activeMultiplier -= Shop.learnings[Stats.learnings[l]].multiplierIncrement
 		}
 	}
-	// Calcular % de incremento por ascensión según lo recorrido (ej: 1Pm -> +1%)
-	var multiplier = parseFloat(Stats.totalLength / 1000000000000) // 1Pm = +1%
+	// (upgrade/learning = x1)
+	var multiplier = Stats.upgrades.length + Stats.learnings.length
+	// Sumar el tiempo de juego invertido (1h = x0,01)
+	var now = new Date()
+	var milis = now.getTime() - Stats.runStartDate.getTime()
+	multiplier += (((milis / 1000) / 60) / 60) / 100
 	// Sumar los logros desbloqueados hasta el momento
 	for(var id in Achievements){
 		if(Achievements[id].done){
@@ -427,7 +463,7 @@ Core.calcMultiplier = function(){
 	if(multiplier < activeMultiplier){
 		multiplier = activeMultiplier
 	}
-	return multiplier
+	return Math.abs(multiplier)
 }
 
 Core.rest = function(){
@@ -439,9 +475,25 @@ Core.rest = function(){
 	Stats.boostbarMax = 500
 	Stats.boostbarLength = 0
 	Stats.rests++
-	// Reset mejoras
+	Stats.actualRestDate = new Date()
+	Core._restCount.innerHTML = Stats.rests
+	Core.resetUpgrades()
+	Core.resetLearnings()
+	Core.showLastRestDate()
+}
+
+Core.showLastRestDate = function(){
+	if(!Stats.actualRestDate) return false
+	if(Core.isNode(Core.get('#info #actual-rest-date'))){
+		Core.get('#info #actual-rest-date').innerHTML = Stats.actualRestDate
+	}else{
+		var li = '<li><strong>Last rest: </strong><span id="actual-rest-date">' + Stats.actualRestDate + '</span></li>'
+		Core._info.innerHTML += li
+	}
+}
+
+Core.resetUpgrades = function(){
 	Stats.upgrades = [  ]
-	Stats.learnings = [  ]
 	var upgradeBtns = Core.get('#upgrades-owned .upgrade-owned, #upgrades .upgrade')
 	if(Core.isNode(upgradeBtns)){
 		upgradeBtns = [ upgradeBtns ]
@@ -449,27 +501,19 @@ Core.rest = function(){
 	for(var i = 0, len = upgradeBtns.length; i < len; i++){
 		upgradeBtns[i].parentNode.removeChild(upgradeBtns[i])
 	}
-	Core.resetUpgrades()
-	Core.unlockUpgrade('walking-shoes')
-	Stats.actualRestDate = new Date()
-	Core._restCount.innerHTML = Stats.rests
-	Core.showLastRestDate()
-}
-
-Core.showLastRestDate = function(){
-	if(!Core.get('#info #actual-rest-date').length){
-		var li = '<li><strong>Last rest: </strong>' + Stats.actualRestDate + '</li>'
-		Core._info.innerHTML += li
-	}else{
-		Core.get('#info #actual-rest-date').innerHTML = Stats.actualRestDate
-	}
-}
-
-Core.resetUpgrades = function(){
 	for(var upgrade in Upgrades){
 		Upgrades[upgrade].visible = false
 		Upgrades[upgrade].owned = false
 	}
+	Stats.nextUpgradeCost = 1000
+	Core.unlockUpgrade('walking-shoes')
+}
+
+Core.resetLearnings = function(){
+	Stats.learnings = [  ]
+	Core.get('#learnings-owned').innerHTML = ''
+	Core.get('#learnings').innerHTML = ''
+	Shop.unlockNextLearning()
 }
 
 Core.exportSave = function(){
@@ -496,12 +540,14 @@ Core.exportSave = function(){
 		Stats.runStartDate,
 		Stats.totalLength,
 		Stats.upgrades.join('|'),
+		Stats.learnings.join('|'),
+		Stats.perks.join('|'),
 		achievementsStrBin,
 		Stats.nextUpgradeCost
 	].join(';')
 	saveStr = window.btoa(saveStr)
-	$('#export-save > textarea').val(saveStr).focus().select()
-	$('#export-save ').css('display', 'block')
+	$('#export-savegame-textarea').val(saveStr).focus().select()
+	$('#export-modal').modal('show')
 }
 
 Core.importSave = function(){
@@ -511,10 +557,10 @@ Core.importSave = function(){
 			'msg': 'Your browser does not support this functionality'
 		})
 	}
-	var saveStr = Core.get('#import-save > textarea').value.replace(/^\s+|\s+$/g, '')
+	var saveStr = Core.get('#import-savegame-textarea').value.replace(/^\s+|\s+$/g, '')
 	saveStr = window.atob(saveStr)
 	saveStr = saveStr.split(';')
-	if(saveStr.length !== 13){
+	if(saveStr.length !== 15){
 		return notif({
 			'type': 'error',
 			'msg': 'Invalid saved game'
@@ -531,7 +577,9 @@ Core.importSave = function(){
 	Stats.runStartDate = new Date(saveStr[8])
 	Stats.totalLength = parseFloat(saveStr[9])
 	Stats.upgrades = saveStr[10].split('|')
-	var achievementsStrBin = saveStr[11].split('')
+	Stats.learnings = saveStr[11].split('|')
+	Stats.perks = saveStr[12].split('|')
+	var achievementsStrBin = saveStr[13].split('')
 	var key = 0
 	for(var id in Achievements){
 		if(typeof achievementsStrBin[key] !== 'undefined'){
@@ -542,7 +590,7 @@ Core.importSave = function(){
 		}
 		key++
 	}
-	Stats.nextUpgradeCost = saveStr[12]
+	Stats.nextUpgradeCost = saveStr[14]
 	Core.save()
 	window.location.reload()
 }

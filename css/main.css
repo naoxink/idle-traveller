@@ -1,3 +1,7 @@
+.btn {
+	display: block;
+	width: 100%;
+}
 .nav {
 	background-color: #f4f4f4;
 	border-bottom: 1px solid rgba(0, 0, 0, .1);
@@ -53,7 +57,7 @@ button.btn.btn-info.upgrade-owned {
 	border-color: #999;
 }
 
-button.btn.btn-info.upgrade-owned:last-child {
+button.btn.btn-info.upgrade-owned:first-child {
 	background-color: #5cb85c;
 	border: rgba(0, 0, 0, .1);
 }

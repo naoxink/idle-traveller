@@ -8,6 +8,7 @@ Stats = {
 	'boostbarTimesFilled': 0,
 	'upgrades': [  ],
 	'learnings': [  ],
+	'perks': [  ],
 	'nextUpgradeCost': 1000,
 	'rests': 0
 }

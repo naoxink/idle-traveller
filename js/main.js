@@ -4,24 +4,22 @@ Core.get('#btn-save').addEventListener('click', Core.save)
 Core.get('#btn-load').addEventListener('click', Core.load)
 Core.get('#btn-reset').addEventListener('click', Core.reset)
 Core.get('#btn-export').addEventListener('click', Core.exportSave)
-Core.get('#btn-import').addEventListener('click', function(){
-	Core.get('#import-save').style.display = 'block'
+
+$('#export-modal').on('shown.bs.modal', function(){
+	$('#export-savegame-textarea').focus().select()
 })
-Core.get('.cancel-import-save').addEventListener('click', function(){
-	Core.get('#import-save').style.display = 'none'
+$('#import-modal').on('shown.bs.modal', function(){
+	$('#import-savegame-textarea').val('').focus()
 })
-Core.get('.close-import-save').addEventListener('click', Core.importSave)
-Core.get('.close-export-save').addEventListener('click', function(){
-	Core.get('#export-save').style.display = 'none'
-	Core.get('#export-save > textarea').value = ''
-})
+
+Core.get('#import-save-confirm').addEventListener('click', Core.importSave)
 
 Core.get('#btn-rest').addEventListener('click', function(){
 	var mult = Core.calcMultiplier()
 	if(mult <= 1){
 		msg = 'You will get <strong class="text-danger">no multiplier</strong>.<br>You need to travel more for it.'
 	}else{
-		msg = 'Resting gives you a permanent multiplier each Pm you have travelled and <span class="text-danger">resets all upgrades and your total distance.</span><br>If you ascend now you will get <strong>x' + mult.toFixed(1) + ' multiplier</strong><hr>'
+		msg = 'Gives you speed multiplier based on your actual progress and <span class="text-danger">resets all upgrades, learnings and your total distance.</span><br>If you ascend now you will get <strong>x' + mult.toFixed(1) + ' multiplier</strong>'
 	}
 	notif_confirm({
 		'textaccept': 'Ok!',

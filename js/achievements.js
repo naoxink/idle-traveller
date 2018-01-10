@@ -90,9 +90,17 @@ Achievements = {
   'meetfali': {
     'name': 'Meet Fali',
     'description': 'Meet Fali',
-    'multiplierIncrement': -66.6,
+    'multiplierIncrement': 0,
     'check': function(){
       return Core.hasUpgrade('falismind')
     }
   },
+  'nowwhat': {
+  	'name': 'Now what?',
+  	'description': 'Buy all upgrades and learnings in the game',
+  	'multiplierIncrement': 0,
+  	'check': function(){
+  		return Core.allUpgradesBought
+  	}
+  }
 }
