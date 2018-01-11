@@ -48,8 +48,7 @@ Core.updateHUD = function(){
 	}else if(Stats.multiplier > 1){
 		Core._lengthDetail.innerHTML = Core.formatLength(Stats.increment * Stats.multiplier) + '/s (' + Core.formatLength(Stats.increment) + '/s x' + parseFloat(Stats.multiplier).toFixed(1) + ')'
 	}
-	Core._sessionTime.innerHTML = Core.timeFormat(new Date().getTime() - Stats.sessionStart.getTime())
-    Core._restCount.innerHTML = Stats.rests
+	Core.get('#info #session-time').innerHTML = Core.timeFormat(new Date() - Stats.sessionStart.getTime())
 	// Mejoras visibles
 	var visibleUpgrades = Core.get('#upgrades .upgrade')
 	if(Core.isNode(visibleUpgrades)){
@@ -112,7 +111,7 @@ Core.formatLength = function(number){
 	else if(number >= 1000) n = parseFloat(number/1000).toFixed(2) + ' km'
   var x = n.split('.')
   var x1 = x[0]
-  var x2 = x.length > 1 ? ',' + x[1] : ''
+  var x2 = x.length > 1 ? '.' + x[1] : ''
   var rgx = /(\d+)(\d{3})/
   while(rgx.test(x1)){
     x1 = x1.replace(rgx, '$1' + '.' + '$2')
@@ -222,9 +221,8 @@ Core.load = function(){
 			Stats.boostbarTimesFilled = parseFloat(window.localStorage.getItem('boostbarTimesFilled'))
 		}
 		Core.updateHUD()
-		notif({ 'type': 'success', 'msg': 'Game loaded!' })
-		Core._runStart.innerHTML = Stats.runStartDate.toString()
 		Core.showLastRestDate()
+		notif({ 'type': 'success', 'msg': 'Game loaded!' })
 	}else{
 		return notif({
 			'type': 'error',
@@ -439,18 +437,12 @@ Core.boost = function(e){
 
 Core.calcMultiplier = function(){
 	var activeMultiplier = Stats.multiplier
-	// Restar al multiplicador activo los learnings
-	for(var l = 0, llen = Stats.learnings.length; l < llen; l++){
-		if(Shop.learnings[Stats.learnings[l]] && Shop.learnings[Stats.learnings[l]].multiplierIncrement){
-			activeMultiplier -= Shop.learnings[Stats.learnings[l]].multiplierIncrement
-		}
-	}
 	// (upgrade/learning = x1)
 	var multiplier = Stats.upgrades.length + Stats.learnings.length
-	// Sumar el tiempo de juego invertido (1h = x0,01)
+	// Sumar el tiempo de juego invertido (1h = x0,1)
 	var now = new Date()
 	var milis = now.getTime() - Stats.runStartDate.getTime()
-	multiplier += (((milis / 1000) / 60) / 60) / 100
+	multiplier += (((milis / 1000) / 60) / 60) / 10
 	// Sumar los logros desbloqueados hasta el momento
 	for(var id in Achievements){
 		if(Achievements[id].done){
@@ -468,7 +460,6 @@ Core.calcMultiplier = function(){
 
 Core.rest = function(){
 	Stats.multiplier = Core.calcMultiplier()
-	// Reset estadísticas (aumentar Stats.rests)
 	Stats.totalLength = 0
 	Stats.increment = 1
 	Stats.boostbar = 0
@@ -476,7 +467,6 @@ Core.rest = function(){
 	Stats.boostbarLength = 0
 	Stats.rests++
 	Stats.actualRestDate = new Date()
-	Core._restCount.innerHTML = Stats.rests
 	Core.resetUpgrades()
 	Core.resetLearnings()
 	Core.showLastRestDate()
@@ -490,6 +480,7 @@ Core.showLastRestDate = function(){
 		var li = '<li><strong>Last rest: </strong><span id="actual-rest-date">' + Stats.actualRestDate + '</span></li>'
 		Core._info.innerHTML += li
 	}
+	Core.get('#rest-count').innerHTML = Stats.rests
 }
 
 Core.resetUpgrades = function(){
@@ -601,7 +592,6 @@ Core._upgrades = Core.get('#upgrades')
 Core._upgradesOwned = Core.get('#upgrades-owned')
 Core._achievements = Core.get('#achievements > table')
 Core._runStart = Core.get('#info #run-start')
-Core._sessionTime = Core.get('#info #session-time')
 Core._restCount = Core.get('#info #rest-count')
 Core._info = Core.get('#info')
 Core._btnRest = Core.get('#btn-rest')
