@@ -42,9 +42,15 @@ setInterval(function(){
 
 $(document).on('click', '#boostbar.ready', Core.boost)
 
-$(window).blur(function(){
-  Core.fps = 5
-});
-$(window).focus(function(){
-  Core.fps = 20
-});
+// $(window).blur(function(){
+//   Core.fps = 5
+// });
+// $(window).focus(function(){
+//   Core.fps = 20
+// });
+
+window.onbeforeunload = function(e) {
+  if(Stats.activePerk === 'autopilot'){
+  	window.localStorage.setItem('close-date', new Date())
+  }
+};

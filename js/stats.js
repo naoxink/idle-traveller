@@ -10,5 +10,6 @@ Stats = {
 	'learnings': [  ],
 	'perks': [  ],
 	'nextUpgradeCost': 1000,
-	'rests': 0
+	'rests': 0,
+	'activePerk': ''
 }

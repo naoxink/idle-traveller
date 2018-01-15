@@ -100,7 +100,7 @@ Achievements = {
   	'description': 'Buy all upgrades and learnings in the game',
   	'multiplierIncrement': 0,
   	'check': function(){
-  		return Core.allUpgradesBought
+  		return Core.allUpgradesBought && Shop.allLearningsBought
   	}
   }
 }

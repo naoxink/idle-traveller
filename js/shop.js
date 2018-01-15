@@ -1,8 +1,8 @@
 window.Shop = {  }
 
-window.Shop.allLearningsBought = false
+Shop.allLearningsBought = false
 
-window.Shop.learnings = {
+Shop.learnings = {
 	'basicmath': {
 		'name': 'Basic Math',
 		'multiplierIncrement': .5,
@@ -71,16 +71,34 @@ window.Shop.learnings = {
 	},
 }
 
-window.Shop.perks = {
+Shop.perks = {
 	'aerodynamics': {
 		'name': 'Aerodynamics',
-		'description': 'Increases the current speed but deactivates the boost bar',
+		'description': 'Increases the current speed (35%) but deactivates the boost bar',
 		'cost': '06:00:00',
 		'activationCost': '00:30:00'
+	},
+	'autopilot': {
+		'name': 'Autopilot',
+		'description': 'Reduces current speed (50%) but you keep travelling (at 15% of the current speed) while the game is closed',
+		'cost': '12:00:00',
+		'activationCost': '00:30:00'
+	},
+	'autoturbo': {
+		'name': 'Autoturbo',
+		'description': 'Automatic boosts but boostbar is filled 10% slower',
+		'cost': '03:30:00',
+		'activationCost': '00:15:00'
+	},
+	'soundsystem': {
+		'name': 'Sound system',
+		'description': 'Boostbar sounds when full',
+		'cost': '00:45:00',
+		'activationCost': '00:05:00'
 	}
 }
 
-window.Shop.addButtonData = function(button, item){
+Shop.addButtonData = function(button, item){
 	var cost = item.calcCost()
 	button.setAttribute('id', item.id)
 	button.className = 'btn btn-primary shop-learning'
@@ -97,7 +115,7 @@ window.Shop.addButtonData = function(button, item){
 	}
 	return button
 }
-window.Shop.addPerkButtonData = function(button, item){
+Shop.addPerkButtonData = function(button, item){
 	var cost = item.calcCost()
 	button.setAttribute('id', item.id)
 	button.className = 'btn btn-primary shop-perk'
@@ -110,25 +128,24 @@ window.Shop.addPerkButtonData = function(button, item){
 			return false
 		}
 		item.buy()
-		e.target.parentNode.removeChild(e.target)
 	}
 	return button
 }
-window.Shop.unlockLearning = function(){
+Shop.unlockLearning = function(){
 	this.visible = true
 	var button = document.createElement('button')
 	button = Shop.addButtonData(button, this)
 	Shop._learnings.appendChild(button)
 	Shop.showingLearning = { 'learning': this, 'element': button }
 }
-window.Shop.unlockPerk = function(){
+Shop.unlockPerk = function(){
 	this.visible = true
 	var button = document.createElement('button')
 	button = Shop.addPerkButtonData(button, this)
 	Shop._perks.appendChild(button)
-	return button
+	this.button = button
 }
-window.Shop.updateShowingItemCost = function(){
+Shop.updateShowingItemCost = function(){
 	if(!Shop.showingLearning) return false
 	var cost = Shop.showingLearning.learning.calcCost()
 	var button = Shop.showingLearning.element
@@ -142,7 +159,7 @@ window.Shop.updateShowingItemCost = function(){
 		Shop.addButtonData(button, Shop.showingLearning.learning)
 	}
 }
-window.Shop.updateShowingPerksCost = function(){
+Shop.updateShowingPerksCost = function(){
 	for(var id in Shop.perks){
 		if(Shop.perks[id].visible){
 			var cost = Shop.perks[id].calcCost()
@@ -156,11 +173,22 @@ window.Shop.updateShowingPerksCost = function(){
 			if(buttonCost !== cost){
 				Shop.addPerkButtonData(button, Shop.perks[id])
 			}
+		}else if(Shop.perks[id].owned && id !== Stats.activePerk){
+			var cost = Shop.perks[id].calcCost()
+			var button = Shop.perks[id].button
+			var buttonCost = parseFloat(button.getAttribute('data-cost'))
+			if(buttonCost > Stats.totalLength){
+				button.setAttribute('disabled', true)
+			}else {
+				button.removeAttribute('disabled')
+			}
+			if(buttonCost !== cost){
+				Shop.perks[id].button.innerHTML = Shop.perks[id].name + ' | Activation cost: ' + Core.formatLength(cost)
+			}
 		}
 	}
-	// TODO: Actualizar precios de activación de los que ya se poseen
 }
-window.Shop.unlockNextLearning = function(itemID){
+Shop.unlockNextLearning = function(itemID){
 	var found = false
 	for(var id in Shop.learnings){
 		if(!itemID) return Shop.learnings[id].unlock()
@@ -175,7 +203,7 @@ window.Shop.unlockNextLearning = function(itemID){
 		Shop.allLearningsBought = true
 	}
 }
-window.Shop.buy = function(){
+Shop.buy = function(){
 	var cost = this.calcCost()
 	if(cost > Stats.totalLength || Shop.hasLearning(this.id)) return false
 	this.visible = false
@@ -185,37 +213,39 @@ window.Shop.buy = function(){
 	this.show()
 	Shop.unlockNextLearning(this.id)
 }
-window.Shop.buyPerk = function(){
+Shop.buyPerk = function(){
 	var cost = this.calcCost()
 	if(cost > Stats.totalLength) return false
-	this.visible = false
 	Stats.totalLength -= cost
 	this.getPerk()
-	this.show()
 }
-window.Shop.hasLearning = function(id){
+Shop.hasLearning = function(id){
 	return Stats.learnings.indexOf(id) !== -1
 }
-window.Shop.learn = function(){
+Shop.learn = function(){
 	if(Stats.learnings.indexOf(this.id) === -1){
 		Stats.learnings.push(this.id)
 		this.owned = true
 	}
 }
-window.Shop.getPerk = function(){
+Shop.getPerk = function(){
 	if(Stats.perks.indexOf(this.id) === -1){
 		Stats.perks.push(this.id)
-		this.owned = true
 	}
+	this.visible = false
+	this.owned = true
+	this.button.parentNode.removeChild(this.button)
+	this.button = null
+	this.show()
 }
-window.Shop.calcTimeCost = function(){
+Shop.calcTimeCost = function(){
 	var cost = 0
 	var time = this.cost.split(':')
 	var seconds = (parseInt(time[0], 10) * 60 * 60) + (parseInt(time[1], 10) * 60) + parseInt(time[2], 10)
 	cost = (Stats.increment * Stats.multiplier) * seconds
 	return cost
 }
-window.Shop.show = function(){
+Shop.show = function(){
 	var span = document.createElement('button')
 	span.setAttribute('disabled', true)
 	span.className = 'btn btn-success learning-owned'
@@ -223,14 +253,65 @@ window.Shop.show = function(){
 	span.innerHTML = this.shortName + ' | ' + this.name + ' | Multiplier +' + this.multiplierIncrement
 	Shop._learningsOwned.appendChild(span)
 }
-window.Shop.showPerk = function(){
-	var span = document.createElement('button')
-	span.className = 'btn btn-default perk-owned'
-	span.title = this.description
-	span.innerHTML = this.name
-	Shop._perksOwned.appendChild(span)
+Shop.showPerk = function(){
+	var perk = this
+	var button = document.createElement('button')
+	button.className = 'btn btn-default perk-owned'
+	button.title = perk.description
+	button.innerHTML = perk.name + ' | Activation cost: ' + Core.formatLength(perk.calcCost())
+	Shop._perksOwned.appendChild(button)
+	button.onclick = function(){
+		if(Stats.activePerk !== perk.id){
+			perk.activate()
+		}else{
+			perk.deactivate()
+		}
+	}
+	perk.button = button
 }
-window.Shop.initShop = function(){
+Shop.activate = function(){
+	var perk = this
+	if(Stats.activePerk !== perk.id){
+		var cost = perk.calcCost()
+		if(cost >= Stats.totalLength) return false
+		notif_confirm({
+			'textaccept': 'Yep',
+			'textcancel': 'No, no',
+			'fullscreen': true,
+			'message': 'Activating "' + perk.name + '" costs ' + Core.formatLength(cost) + '<hr><strong>Effect:</strong> ' + perk.description + '<hr>Are you sure?',
+			'callback': function(ok){
+				if(ok){
+					Stats.totalLength -= cost
+					Stats.activePerk = perk.id
+					$('.perk-owned').removeClass('btn-success').addClass('btn-default')
+					$(perk.button).addClass('btn-success')
+					perk.button.innerHTML = perk.name + ' (Active)'
+				}
+			}
+		})
+	}else{
+		$('.perk-owned').removeClass('btn-success').addClass('btn-default')
+		$(perk.button).addClass('btn-success')
+		perk.button.innerHTML = perk.name + ' (Active)'
+	}
+}
+Shop.deactivate = function(){
+	var perk = this
+	notif_confirm({
+		'textaccept': 'Yep',
+		'textcancel': 'No, no',
+		'fullscreen': true,
+		'message': 'You are going to deactivate "' + perk.name + '"<hr><strong>Effect:</strong> ' + perk.description + '<hr>Are you sure?',
+		'callback': function(ok){
+			if(ok){
+				Stats.activePerk = ''
+				$('.perk-owned').removeClass('btn-success').addClass('btn-default')
+				perk.button.innerHTML = perk.name + ' | Activation cost: ' + Core.formatLength(perk.calcCost())
+			}
+		}
+	})
+}
+Shop.initShop = function(){
 	for(var id in Shop.learnings){
 		// Add methods and attributes
 		Shop.learnings[id].unlock = Shop.unlockLearning.bind(Shop.learnings[id])
@@ -242,7 +323,6 @@ window.Shop.initShop = function(){
 		Shop.learnings[id].visible = false
 		Shop.learnings[id].id = id
 	}
-	return false
 	for(var id in Shop.perks){
 		// Add methods and attributes
 		Shop.perks[id].unlock = Shop.unlockPerk.bind(Shop.perks[id])
@@ -250,14 +330,16 @@ window.Shop.initShop = function(){
 		Shop.perks[id].show = Shop.showPerk.bind(Shop.perks[id])
 		Shop.perks[id].calcCost = Shop.calcTimeCost.bind(Shop.perks[id])
 		Shop.perks[id].getPerk = Shop.getPerk.bind(Shop.perks[id])
+		Shop.perks[id].activate = Shop.activate.bind(Shop.perks[id])
+		Shop.perks[id].deactivate = Shop.deactivate.bind(Shop.perks[id])
 		Shop.perks[id].owned = false
 		Shop.perks[id].visible = false
 		Shop.perks[id].id = id
-		Shop.perks[id].button = Shop.perks[id].unlock()
+		Shop.perks[id].unlock()
 	}
 }
 
-window.Shop._learnings = Core.get('#learnings')
-window.Shop._learningsOwned = Core.get('#learnings-owned')
-window.Shop._perks = Core.get('#perks')
-window.Shop._perksOwned = Core.get('#perks-owned')
+Shop._learnings = Core.get('#learnings')
+Shop._learningsOwned = Core.get('#learnings-owned')
+Shop._perks = Core.get('#perks')
+Shop._perksOwned = Core.get('#perks-owned')

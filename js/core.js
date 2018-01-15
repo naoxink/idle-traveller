@@ -20,11 +20,26 @@ Core.init = function(){
 Core.loop = function(){
 	Core.timer = setTimeout(function(){
 		var delta = (Core.end || new Date()) - new Date()
-		delta *= -1
-		Stats.totalLength += (Stats.increment * Stats.multiplier) * (delta / 1000)
-		Stats.boostbarLength += (Stats.increment * Stats.multiplier) * (delta / 1000)
-		Stats.boostbar = (Stats.boostbarLength * 100) / Stats.boostbarMax
-		if(Stats.boostbar > 100) Stats.boostbar = 100
+			delta *= -1
+		var inc = (Stats.increment * Stats.multiplier) * (delta / 1000)
+		Core.extraInc = 0
+		if(Stats.activePerk === 'aerodynamics'){
+			Core.extraInc += inc * 0.35
+		}else{
+			var bbinc = inc + Core.extraInc
+			if(Stats.activePerk === 'autoturbo'){
+				bbinc -= bbinc * 0.1
+			}
+			Stats.boostbarLength += bbinc
+			Stats.boostbar = (Stats.boostbarLength * 100) / Stats.boostbarMax
+			if(Stats.boostbar > 100) Stats.boostbar = 100
+		}
+
+		if(Stats.activePerk === 'autopilot'){
+			Core.extraInc -= inc * 0.5
+		}
+
+		Stats.totalLength += inc + Core.extraInc
 		Core.updateHUD()
 		Core.end = new Date()
 		Core.loop()
@@ -41,13 +56,22 @@ Core.updateHUD = function(){
 		Shop.unlockNextLearning()
 	}
 	Shop.updateShowingItemCost()
-	// Shop.updateShowingPerksCost() 
+	Shop.updateShowingPerksCost()
 	Core._length.innerHTML = Core.formatLength(Stats.totalLength)
+	var lengthDetailStr = ''
 	if(Stats.multiplier === 1){
-		Core._lengthDetail.innerHTML = Core.formatLength(Stats.increment) + '/s'
+		lengthDetailStr = Core.formatLength(Stats.increment) + '/s'
 	}else if(Stats.multiplier > 1){
-		Core._lengthDetail.innerHTML = Core.formatLength(Stats.increment * Stats.multiplier) + '/s (' + Core.formatLength(Stats.increment) + '/s x' + parseFloat(Stats.multiplier).toFixed(1) + ')'
+		 lengthDetailStr = Core.formatLength(Stats.increment * Stats.multiplier) 
+		 + '/s (' + Core.formatLength(Stats.increment) 
+		 + '/s x' + parseFloat(Stats.multiplier).toFixed(1) + ')'
 	}
+	if(Stats.activePerk === 'aerodynamics'){
+		lengthDetailStr += ' + Aerodynamics (' + Core.formatLength(Core.extraInc) + ')'
+	}else if(Stats.activePerk === 'autopilot'){
+		lengthDetailStr += ' - Autopilot (' + Core.formatLength(Core.extraInc * -1) + ')'
+	}
+	Core._lengthDetail.innerHTML = lengthDetailStr
 	Core.get('#info #session-time').innerHTML = Core.timeFormat(new Date() - Stats.sessionStart.getTime())
 	// Mejoras visibles
 	var visibleUpgrades = Core.get('#upgrades .upgrade')
@@ -68,13 +92,20 @@ Core.updateHUD = function(){
 	}
 	// Calcular % del boostbar
 	if(Stats.boostbar >= 100){
-		$('#boostbar')
-			.css('width', '100%')
-			.removeClass('bg-warning')
-			.addClass('bg-primary')
-			.addClass('ready')
-			.attr('data-length', 'BOOST ME!')
-		document.title = 'BOOST READY'
+		if(Stats.activePerk === 'autoturbo'){
+			Core.boost()
+		}else{
+			if(Stats.activePerk === 'soundsystem'){
+				Core.play('boostbar-filled')
+			}
+			$('#boostbar')
+				.css('width', '100%')
+				.removeClass('bg-warning')
+				.addClass('bg-primary')
+				.addClass('ready')
+				.attr('data-length', 'BOOST ME!')
+			document.title = 'BOOST READY'
+		}
 	}else{
 		$('#boostbar')
 			.css('width', Stats.boostbar + '%')
@@ -84,6 +115,11 @@ Core.updateHUD = function(){
 			.attr('data-length', parseFloat(Stats.boostbar).toFixed(2) + '%')
 	}
 	$('.progress').attr('data-max', Core.formatLength(Stats.boostbarMax))
+	if(Stats.activePerk === 'aerodynamics'){
+		$('.progress').addClass('disabled')
+	}else{
+		$('.progress').removeClass('disabled')
+	}
 	Core.checkAchievements()
 	var m = Core.calcMultiplier()
 	m = m - Stats.multiplier
@@ -136,6 +172,7 @@ Core.save = function(){
 	window.localStorage.setItem('perks', JSON.stringify(Stats.perks))
 	window.localStorage.setItem('runStartDate', Stats.runStartDate)
 	window.localStorage.setItem('nextUpgradeCost', Stats.nextUpgradeCost)
+	window.localStorage.setItem('activePerk', Stats.activePerk)
 	// Logros
 	var achievementsStrBin = ''
 	for(var id in Achievements){
@@ -174,6 +211,7 @@ Core.load = function(){
 		Stats.upgrades = JSON.parse(window.localStorage.getItem('upgrades'))
 		Stats.learnings = JSON.parse(window.localStorage.getItem('learnings'))
 		Stats.perks = JSON.parse(window.localStorage.getItem('perks'))
+		Stats.activePerk = window.localStorage.getItem('activePerk')
 		Stats.rests = parseInt(window.localStorage.getItem('rests'), 10)
 		Stats.nextUpgradeCost = parseFloat(window.localStorage.getItem('nextUpgradeCost'))
 		if(window.localStorage.getItem('actualRestDate')){
@@ -220,8 +258,23 @@ Core.load = function(){
 			Stats.boostbarMax = parseFloat(window.localStorage.getItem('boostbarMax'))
 			Stats.boostbarTimesFilled = parseFloat(window.localStorage.getItem('boostbarTimesFilled'))
 		}
+		// Perks
+		for(var i = 0, len = Stats.perks.length; i < len; i++){
+			Shop.perks[Stats.perks[i]].getPerk()
+			if(Stats.activePerk === Stats.perks[i]){
+				Shop.perks[Stats.perks[i]].activate()
+			}
+		}
+		var closeDate = window.localStorage.getItem('close-date')
+		if(Stats.activePerk === 'autopilot' && closeDate){
+			var delta = (new Date(closeDate)) - new Date()
+				delta *= -1
+			var inc = (Stats.increment * Stats.multiplier) * (delta / 1000)
+			Stats.totalLength += inc * 0.15
+		}
 		Core.updateHUD()
 		Core.showLastRestDate()
+		Core.get('#run-start').innerHTML = Stats.runStartDate.toString()
 		notif({ 'type': 'success', 'msg': 'Game loaded!' })
 	}else{
 		return notif({
@@ -420,8 +473,7 @@ Core.timeFormat = function(s){
 	return result
 }
 
-Core.boost = function(e){
-	e.preventDefault()
+Core.boost = function(){
 	var boost = Stats.boostbarMax
 	Stats.totalLength += boost
 	Stats.boostbar = 0
@@ -433,6 +485,10 @@ Core.boost = function(e){
 		'msg': 'You have been boosted for ' + Core.formatLength(boost) + '!'
 	})
 	document.title = 'Idle Traveller'
+	var sound = Core.get("#sound-system")
+	if(sound.getAttribute('played')){
+		sound.removeAttribute('played')
+	}
 }
 
 Core.calcMultiplier = function(){
@@ -534,7 +590,8 @@ Core.exportSave = function(){
 		Stats.learnings.join('|'),
 		Stats.perks.join('|'),
 		achievementsStrBin,
-		Stats.nextUpgradeCost
+		Stats.nextUpgradeCost,
+		Stats.activePerk
 	].join(';')
 	saveStr = window.btoa(saveStr)
 	$('#export-savegame-textarea').val(saveStr).focus().select()
@@ -551,7 +608,7 @@ Core.importSave = function(){
 	var saveStr = Core.get('#import-savegame-textarea').value.replace(/^\s+|\s+$/g, '')
 	saveStr = window.atob(saveStr)
 	saveStr = saveStr.split(';')
-	if(saveStr.length !== 15){
+	if(saveStr.length !== 16){
 		return notif({
 			'type': 'error',
 			'msg': 'Invalid saved game'
@@ -581,9 +638,22 @@ Core.importSave = function(){
 		}
 		key++
 	}
-	Stats.nextUpgradeCost = saveStr[14]
+	Stats.nextUpgradeCost = saveStr[14],
+	Stats.activePerk = saveStr[15],
 	Core.save()
 	window.location.reload()
+}
+
+Core.play = function(sound){
+	switch(sound){
+		case 'boostbar-filled':
+			var sound = Core.get("#sound-system")
+			if(sound && !sound.getAttribute('played')){
+				sound.play()
+				sound.setAttribute('played', true)
+			}
+			break
+	}
 }
 
 Core._length = Core.get('#length')

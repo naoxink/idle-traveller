@@ -1,6 +1,13 @@
 .btn {
 	display: block;
 	width: 100%;
+	cursor: pointer;
+	margin: 5px;
+}
+.btn.perk-owned {
+	display: inline-block;
+	width: auto;
+	margin: 5px;
 }
 .nav {
 	background-color: #f4f4f4;
@@ -124,6 +131,10 @@ button.btn.btn-info.upgrade-owned:first-child {
 	-ms-border-radius: 0;
 	-o-border-radius: 0;
 	border-radius: 0;
+}
+
+.progress.disabled .progress-bar {
+	background-color: rgba(0, 0, 0, .1) !important;
 }
 
 .progress:after {
