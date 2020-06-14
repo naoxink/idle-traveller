@@ -9,7 +9,7 @@ Stats = {
 	'upgrades': [  ],
 	'learnings': [  ],
 	'perks': [  ],
-	'nextUpgradeCost': 1000,
+	'nextUpgradeCost': 10,
 	'rests': 0,
 	'activePerk': ''
 }

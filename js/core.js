@@ -354,24 +354,7 @@ Core.buyUpgrade = function(upgrade){
 	upgrade.owned = true
 	Stats.upgrades.push(upgrade.id)
 	
-	var incc = 1.7
-	var incv = 3
-	var o1 = 1000
-	var v0 = 1
-
-	var ciclo = Stats.upgrades.length + 1
-	if(ciclo > 0){
-		Stats.increment = v0 * Math.pow(incv, ciclo)
-		coste = o1 * Math.pow(incc, ciclo)
-		var va = (v0 * Math.pow(incv, (ciclo-2)))
-		if(ciclo == 1){
-			va = v0
-		}
-		Stats.nextUpgradeCost = coste * va
-	}else{
-		Stats.increment = v0
-		Stats.nextUpgradeCost = o1
-	}
+	Core.calcNextUpgradeCost()
 
 	Core.addUpgrade(upgrade)
 	Core.unlockNextUpgrade(upgrade.id)
@@ -392,7 +375,24 @@ Core.addUpgrade = function(upgrade){
 }
 
 Core.calcNextUpgradeCost = function(){
-	Stats.nextUpgradeCost = 1.5 * Math.floor(Stats.nextUpgradeCost * Math.pow(1.1, Stats.upgrades.length))
+	var incc = 1.4
+	var incv = 1.1
+	var o1 = 10
+	var v0 = 1
+
+	var ciclo = Stats.upgrades.length + 1
+	if(ciclo > 0){
+		Stats.increment = v0 * Math.pow(incv, ciclo)
+		coste = o1 * Math.pow(incc, ciclo)
+		var va = (v0 * Math.pow(incv, (ciclo-2)))
+		if(ciclo == 1){
+			va = v0
+		}
+		Stats.nextUpgradeCost = coste * va
+	}else{
+		Stats.increment = v0
+		Stats.nextUpgradeCost = o1
+	}
 }
 
 Core.isArray = function(item){
@@ -411,14 +411,18 @@ Core.initAchievements = function(){
 		// Crear elemento DOM
 		var tr = document.createElement('tr')
 		var td = document.createElement('td')
+		var small = document.createElement('small')
+		small.className = 'achievement-description'
 		td.innerHTML = '<strong>' + Achievements[id].name + '</strong>'
 		var title = Achievements[id].description +
 								(Achievements[id].multiplierIncrement ?
 									' (multiplier +' + Achievements[id].multiplierIncrement + ')' : 
 									'')
 		td.setAttribute('title', title)
+		small.textContent = title
+		td.appendChild(small)
 		tr.appendChild(td)
-		tr.className = 'text-muted achievement ' + (Achievements[id].done ? 'unlocked' : 'locked')
+		tr.className = 'achievement ' + (Achievements[id].done ? 'unlocked' : 'locked')
 		// Guardar referencia
 		Achievements[id]._element = tr
 		Core._achievements.appendChild(Achievements[id]._element)
@@ -552,7 +556,7 @@ Core.resetUpgrades = function(){
 		Upgrades[upgrade].visible = false
 		Upgrades[upgrade].owned = false
 	}
-	Stats.nextUpgradeCost = 1000
+	Stats.nextUpgradeCost = 10
 	Core.unlockUpgrade('walking-shoes')
 }
 

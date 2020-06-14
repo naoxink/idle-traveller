@@ -6,49 +6,49 @@ Shop.learnings = {
 	'basicmath': {
 		'name': 'Basic Math',
 		'multiplierIncrement': .5,
-		'cost': '00:30:00',
+		'cost': '00:10:00',
 		'shortName': '+'
 	},
 	'appliedmathematics': {
 		'name': 'Applied mathematics',
 		'multiplierIncrement': .5,
-		'cost': '00:45:00',
+		'cost': '00:15:00',
 		'shortName': '∑'
 	},
 	'advancedmathematics': {
 		'name': 'Advanced Mathematics',
 		'multiplierIncrement': 1,
-		'cost': '01:00:00',
+		'cost': '00:20:00',
 		'shortName': '⨋'
 	},
 	'advancedmathematicsii': {
 		'name': 'Advanced Mathematics II',
 		'multiplierIncrement': 1,
-		'cost': '01:30:00',
+		'cost': '00:30:00',
 		'shortName': '∰'
 	},
 	'commutativealgebra': {
 		'name': 'Commutative algebra',
 		'multiplierIncrement': 1.3,
-		'cost': '02:00:00',
+		'cost': '00:40:00',
 		'shortName': '∈'
 	},
 	'calculusofvariations': {
 		'name': 'Calculus of variations',
 		'multiplierIncrement': 1.3,
-		'cost': '02:00:00',
+		'cost': '00:50:00',
 		'shortName': 'Φ'
 	},
 	'ergodictheory': {
 		'name': 'Ergodic theory',
 		'multiplierIncrement': 2,
-		'cost': '02:30:00',
+		'cost': '01:15:00',
 		'shortName': 'ψ'
 	},
 	'probabilitytheory': {
 		'name': 'Probability theory',
 		'multiplierIncrement': 2.3,
-		'cost': '02:30:00',
+		'cost': '01:30:00',
 		'shortName': 'Ω'
 	},
 	'statistics': {
@@ -60,13 +60,13 @@ Shop.learnings = {
 	'fluidmechanics': {
 		'name': 'Fluid mechanics',
 		'multiplierIncrement': 2,
-		'cost': '03:00:00',
+		'cost': '02:40:00',
 		'shortName': '∇'
 	},
 	'theoryofrelativity': {
 		'name': 'Theory of relativity',
 		'multiplierIncrement': 3,
-		'cost': '03:45:00',
+		'cost': '03:15:00',
 		'shortName': 'E = mc²'
 	},
 }
@@ -75,26 +75,26 @@ Shop.perks = {
 	'aerodynamics': {
 		'name': 'Aerodynamics',
 		'description': 'Increases the current speed (35%) but deactivates the boost bar',
-		'cost': '06:00:00',
-		'activationCost': '00:30:00'
+		'cost': '00:30:00',
+		'activationCost': '00:10:00'
 	},
 	'autopilot': {
 		'name': 'Autopilot',
 		'description': 'Reduces current speed (50%) but you keep travelling (at 15% of the current speed) while the game is closed',
-		'cost': '12:00:00',
-		'activationCost': '00:30:00'
+		'cost': '01:00:00',
+		'activationCost': '00:10:00'
 	},
 	'autoturbo': {
 		'name': 'Autoturbo',
 		'description': 'Automatic boosts but boostbar is filled 10% slower',
-		'cost': '03:30:00',
-		'activationCost': '00:15:00'
+		'cost': '00:30:00',
+		'activationCost': '00:10:00'
 	},
 	'soundsystem': {
 		'name': 'Sound system',
 		'description': 'Boostbar sounds when full',
-		'cost': '00:45:00',
-		'activationCost': '00:05:00'
+		'cost': '00:08:00',
+		'activationCost': '00:01:00'
 	}
 }
 
