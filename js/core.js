@@ -376,7 +376,7 @@ Core.addUpgrade = function(upgrade){
 
 Core.calcNextUpgradeCost = function(){
 	var incc = 1.4
-	var incv = 1.1
+	var incv = 1.15
 	var o1 = 10
 	var v0 = 1
 
