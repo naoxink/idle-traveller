@@ -42,6 +42,17 @@ setInterval(function(){
 
 $(document).on('click', '#boostbar.ready', Core.boost)
 
+$('.section > p.title').click(function(e){
+	e.preventDefault()
+	if(!$(this).hasClass('closed')){
+		$(this).addClass('closed')
+		$(this).siblings('.content').slideUp()
+	}else{
+		$(this).removeClass('closed')
+		$(this).siblings('.content').slideDown()
+	}
+})
+
 // $(window).blur(function(){
 //   Core.fps = 5
 // });

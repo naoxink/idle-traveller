@@ -374,24 +374,26 @@ Core.addUpgrade = function(upgrade){
 }
 
 Core.calcNextUpgradeCost = function(){
-	var incc = 1.4
-	var incv = 1.2
-	var o1 = 10
-	var v0 = 1
+	Stats.increment *= 2 + (Stats.upgrades.length / 100)
+	Stats.nextUpgradeCost *= 2.7 + (Stats.upgrades.length / 100)
+	// var incc = 1.4
+	// var incv = 1.2
+	// var o1 = 10
+	// var v0 = 1
 
-	var ciclo = Stats.upgrades.length + 1
-	if(ciclo > 0){
-		Stats.increment = v0 * Math.pow(incv, ciclo)
-		coste = o1 * Math.pow(incc, ciclo)
-		var va = (v0 * Math.pow(incv, (ciclo-2)))
-		if(ciclo == 1){
-			va = v0
-		}
-		Stats.nextUpgradeCost = coste * va
-	}else{
-		Stats.increment = v0
-		Stats.nextUpgradeCost = o1
-	}
+	// var ciclo = Stats.upgrades.length + 1
+	// if(ciclo > 0){
+	// 	Stats.increment = v0 * Math.pow(incv, ciclo)
+	// 	coste = o1 * Math.pow(incc, ciclo)
+	// 	var va = (v0 * Math.pow(incv, (ciclo-2)))
+	// 	if(ciclo == 1){
+	// 		va = v0
+	// 	}
+	// 	Stats.nextUpgradeCost = coste * va
+	// }else{
+	// 	Stats.increment = v0
+	// 	Stats.nextUpgradeCost = o1
+	// }
 }
 
 Core.isArray = function(item){
@@ -445,7 +447,7 @@ Core.unlockAchievement = function(achievement, silent){
 		.removeClass('locked')
 		.addClass('unlocked')
 		.removeClass('text-muted')
-	$(achievement._element).find('td').html(achievement.name + ' (multiplier +' + (achievement.multiplierIncrement || 0) + ')')
+	// $(achievement._element).find('td').html(achievement.name + ' (multiplier +' + (achievement.multiplierIncrement || 0) + ')')
 	if(!silent){
 		notif({
 			'type': 'info',
@@ -480,13 +482,13 @@ Core.boost = function(){
 	var boost = Stats.boostbarMax
 	Stats.totalLength += boost
 	Stats.boostbar = 0
-	Stats.boostbarMax += boost * 3
+	if(Stats.activePerk === 'littleboosts'){
+		Stats.boostbarMax += boost * 1.5
+	}else{
+		Stats.boostbarMax += boost * 3
+	}
 	Stats.boostbarTimesFilled++
 	Core.updateHUD()
-	notif({
-		'type': 'success',
-		'msg': 'You have been boosted for ' + Core.formatLength(boost) + '!'
-	})
 	document.title = 'Idle Traveller'
 	var sound = Core.get("#sound-system")
 	if(sound.getAttribute('played')){
@@ -520,9 +522,9 @@ Core.calcMultiplier = function(){
 Core.rest = function(){
 	Stats.multiplier = Core.calcMultiplier()
 	Stats.totalLength = 0
-	Stats.increment = 1
+	Stats.increment = Permastats.incrementBase
 	Stats.boostbar = 0
-	Stats.boostbarMax = 500
+	Stats.boostbarMax = Permastats.boostbarBaseMax
 	Stats.boostbarLength = 0
 	Stats.rests++
 	Stats.actualRestDate = new Date()

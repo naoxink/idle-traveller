@@ -18,23 +18,34 @@
 	</script>
 </head>
 <body>
+
 	<audio id="sound-system" src="sound/ding.mp3" autostart="false" ></audio>
+	
 	<ul class="nav justify-content-center">
-		<span class="navbar-brand">idleTraveller</span>
+		<span class="navbar-brand">idle-traveller</span>
+
 		<li class="nav-item">
-			<a class="nav-link" href="javascript:void(0)" id="btn-save"><i class="fa fa-save"></i> Save</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="javascript:void(0)" id="btn-load"><i class="fa fa-tasks"></i> Load</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="javascript:void(0)" id="btn-export"><i class="fa fa-code-fork"></i> Export save</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="javascript:void(0)" id="btn-import" data-toggle="modal" data-target="#import-modal"><i class="fa fa-terminal"></i> Import save</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link text-danger" href="javascript:void(0)" id="btn-reset"><i class="fa fa-exclamation"></i> Reset</a>
+	    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+	    	<i class="fa fa-cogs"></i> Options
+	  	</a>
+	    <div class="dropdown-menu">
+	      <a class="dropdown-item" href="javascript:void(0)" id="btn-save">
+	      	<i class="fa fa-save"></i> Save game
+	      </a>
+	      <a class="dropdown-item" href="javascript:void(0)" id="btn-load">
+	      	<i class="fa fa-tasks"></i> Load game
+	      </a>
+	      <a class="dropdown-item" href="javascript:void(0)" id="btn-export">
+	      	<i class="fa fa-code-fork"></i> Export game
+	      </a>
+	      <a class="dropdown-item" href="javascript:void(0)" id="btn-import"  data-toggle="modal" data-target="#import-modal">
+	      	<i class="fa fa-terminal"></i> Import game
+	      </a>
+	      <div class="dropdown-divider"></div>
+	      <a href="javascript:void(0)" class="dropdown-item text-danger" id="btn-reset">
+	      	<i class="fa fa-exclamation"></i> Reset</a>
+	      </a>
+	    </div>
 		</li>
 	</ul>
 	<div class="container">
@@ -62,12 +73,14 @@
 			<div class="col-md-6 col-12">
 				<div class="section">
 					<p class="title">Info</p>
-					<ul id="info">
-						<li><strong>Game version: </strong><span id="game-version"></span></li>
-						<li><strong>Run start: </strong><span id="run-start"></span></li>
-						<li><strong>Actual session time: </strong><span id="session-time"></span></li>
-						<li><strong>Rests: </strong><span id="rest-count">0</span></li>
-					</ul>
+					<div class="content">
+						<ul id="info">
+							<li><strong>Game version: </strong><span id="game-version"></span></li>
+							<li><strong>Run start: </strong><span id="run-start"></span></li>
+							<li><strong>Actual session time: </strong><span id="session-time"></span></li>
+							<li><strong>Rests: </strong><span id="rest-count">0</span></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -76,35 +89,49 @@
 			<div class="col-md-6 col-12">
 				<div class="section">
 					<p class="title">Upgrade</p>
-					<div id="upgrades"></div>
+					<div class="content">
+						<div id="upgrades"></div>
+					</div>
 				</div>
 				<div class="section">
 					<p class="title">Learning</p>
-					<div id="learnings"></div>
+					<div class="content">
+						<div id="learnings"></div>
+					</div>
 				</div>
 				<div class="section">
 					<p class="title">Perks</p>
-					<div id="perks"></div>
+					<div class="content">
+						<div id="perks"></div>
+					</div>
 				</div>
 				<div class="section">
 					<p class="title">Achievements</p>
-					<div id="achievements">
-						<table class="table table-bordered table-hover"></table>
+					<div class="content">
+						<div id="achievements">
+							<table class="table table-bordered table-hover"></table>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6 col-12">
 				<div class="section">
 					<p class="title">Perks owned</p>
-					<div id="perks-owned"></div>
+					<div class="content">
+						<div id="perks-owned"></div>
+					</div>
 				</div>
 				<div class="section">
 					<p class="title">Upgrades owned</p>
-					<div id="upgrades-owned"></div>
+					<div class="content">
+						<div id="upgrades-owned"></div>
+					</div>
 				</div>
 				<div class="section">
 					<p class="title">Learnings</p>
-					<div id="learnings-owned"></div>
+					<div class="content">
+						<div id="learnings-owned"></div>
+					</div>
 				</div>
 				<div class="alert alert-info" style="margin: 10px;">
 					You are in a <strong>development version</strong>.

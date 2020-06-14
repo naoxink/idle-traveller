@@ -72,11 +72,17 @@ Shop.learnings = {
 }
 
 Shop.perks = {
+	'littleboosts': {
+		'name': 'Little Boosts',
+		'description': 'Smaller boosts but more of them',
+		'cost': '00:30:00',
+		'activationCost': '00:01:00'
+	},
 	'aerodynamics': {
 		'name': 'Aerodynamics',
 		'description': 'Increases the current speed (35%) but deactivates the boost bar',
 		'cost': '00:30:00',
-		'activationCost': '00:10:00'
+		'activationCost': '00:05:00'
 	},
 	'autopilot': {
 		'name': 'Autopilot',
@@ -88,7 +94,7 @@ Shop.perks = {
 		'name': 'Autoturbo',
 		'description': 'Automatic boosts but boostbar is filled 10% slower',
 		'cost': '00:30:00',
-		'activationCost': '00:10:00'
+		'activationCost': '00:05:00'
 	},
 	'soundsystem': {
 		'name': 'Sound system',
@@ -102,7 +108,7 @@ Shop.addButtonData = function(button, item){
 	var cost = item.calcCost()
 	button.setAttribute('id', item.id)
 	button.className = 'btn btn-primary shop-learning'
-	button.innerHTML = item.name + ' | ' + Core.formatLength(cost)
+	button.innerHTML = item.name + ' | ' + Core.formatLength(cost) + '<small class="learning-ttc">Travel time cost: ' + item.cost + '</small><small class="learning-description">Multiplier +' + item.multiplierIncrement + '</small>'
 	button.setAttribute('data-cost', cost)
 	button.title = 'Multiplier +' + item.multiplierIncrement + ' | Travel time cost: ' + item.cost
 	button.onclick = function(e){
@@ -119,9 +125,11 @@ Shop.addPerkButtonData = function(button, item){
 	var cost = item.calcCost()
 	button.setAttribute('id', item.id)
 	button.className = 'btn btn-primary shop-perk'
-	button.innerHTML = item.name + ' | ' + Core.formatLength(cost)
-	button.setAttribute('data-cost', cost)
 	button.title = item.description + ' | Travel time cost: ' + item.cost
+
+	button.innerHTML = item.name + ' | ' + Core.formatLength(cost) + '<small class="perk-ttc">(Travel time cost: ' + item.cost + ')</small><small class="perk-description">' + item.description + '</small>'
+
+	button.setAttribute('data-cost', cost)
 	button.onclick = function(e){
 		e.preventDefault()
 		if(Stats.totalLength < cost){
