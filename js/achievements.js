@@ -12,7 +12,7 @@ Achievements = {
 		'description': 'Rebase the 61 m/s',
 		'multiplierIncrement': .1,
 		'check': function(){
-			return Stats.increment >= 61
+			return Stats.increment * Stats.multiplier >= 61
 		}
 	},
 	'speed-of-light': {
