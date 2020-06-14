@@ -348,7 +348,6 @@ Core.buyUpgrade = function(upgrade){
 	if(upgrade.multiplier && upgrade.multiplier !== 1){
 		Stats.multiplier += upgrade.multiplier
 	}
-	// Stats.increment += 6 * Math.floor(Math.pow(1.6, Stats.upgrades.length))
 	upgrade.effect()
 	upgrade.visible = false
 	upgrade.owned = true
@@ -376,7 +375,7 @@ Core.addUpgrade = function(upgrade){
 
 Core.calcNextUpgradeCost = function(){
 	var incc = 1.4
-	var incv = 1.15
+	var incv = 1.2
 	var o1 = 10
 	var v0 = 1
 
