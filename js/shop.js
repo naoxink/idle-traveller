@@ -305,6 +305,10 @@ Shop.activate = function(){
 					Stats.activePerk = perk.id
 					$('.perk-owned').removeClass('btn-success').addClass('btn-default')
 					$(perk.button).addClass('btn-success')
+					const buttons = Shop._perksOwned.querySelectorAll('button')
+					buttons.forEach(function(button){
+						button.innerHTML = button.innerHTML.replace('(Active)', '')
+					})
 					perk.button.innerHTML = perk.name + ' (Active)'
 				}
 			}
@@ -312,6 +316,7 @@ Shop.activate = function(){
 	}else{
 		$('.perk-owned').removeClass('btn-success').addClass('btn-default')
 		$(perk.button).addClass('btn-success')
+
 		perk.button.innerHTML = perk.name + ' (Active)'
 	}
 }
@@ -326,7 +331,7 @@ Shop.deactivate = function(){
 			if(ok){
 				Stats.activePerk = ''
 				$('.perk-owned').removeClass('btn-success').addClass('btn-default')
-				perk.button.innerHTML = perk.name + ' | Activation cost: ' + Core.formatLength(perk.calcCost())
+				perk.button.innerHTML = perk.name
 			}
 		}
 	})

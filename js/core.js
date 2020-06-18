@@ -1,7 +1,7 @@
 window.Core = {  }
 
 Core.fps = 30
-Core.version = '1.0.45'
+Core.version = '1.0.46'
 Core.timer = null
 
 Core.allUpgradesBought = false
@@ -451,6 +451,7 @@ Core.unlockAchievement = function(achievement, silent){
 	if(!silent){
 		notif({
 			'type': 'info',
+			'position': 'center',
 			'msg': 'Achievement unlocked: ' + achievement.name
 		})
 	}
