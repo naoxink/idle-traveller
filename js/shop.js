@@ -251,7 +251,7 @@ Shop.getPerk = function(){
 	}
 	this.visible = false
 	this.owned = true
-	this.button.parentNode.parentNode.removeChild(this.button.parentNode)
+	this.button.parentNode.parentNode.parentNode.removeChild(this.button.parentNode.parentNode)
 	this.button = null
 	this.show()
 }
