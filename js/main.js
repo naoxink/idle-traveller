@@ -16,8 +16,14 @@ Core.get('#import-save-confirm').addEventListener('click', Core.importSave)
 
 Core.get('#btn-rest').addEventListener('click', function(){
 	var mult = Core.calcMultiplier()
-	if(mult <= 1){
-		msg = 'You will get <strong class="text-danger">no multiplier</strong>.<br>You need to travel more for it.'
+	console.log(Stats.multiplier, mult)
+	if(!mult || mult <= Stats.multiplier){
+		// msg = 'You will get <strong class="text-danger">no multiplier</strong>.<br>You need to travel more for it.'
+		return notif({
+			'type': 'error',
+			'position': 'center',
+			'msg': 'You can\'t rest until you have something to gain!'
+		})
 	}else{
 		msg = 'Gives you speed multiplier based on your actual progress and <span class="text-danger">resets all upgrades, learnings and your total distance.</span><br>If you ascend now you will get <strong>x' + mult.toFixed(1) + ' multiplier</strong>'
 	}

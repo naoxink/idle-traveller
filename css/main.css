@@ -1,3 +1,27 @@
+.low-margin {
+	margin: 5px;
+}
+.row.perk {
+	padding: 10px;
+	border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
+#perks.closed {
+	position: relative;
+}
+#perks.closed:after {
+	position: absolute;
+	top: -70px;
+	bottom: -20px;
+	left: -20px;
+	right: -20px;
+	background-color: rgba(0, 0, 0, .8);
+	color: white;
+	content: 'Shop closed. \A\A Schedule: 08:00 - 14:00, 16:00 - 22:00';
+	white-space: pre;
+	text-align: center;
+	font-weight: bold;
+	padding-top: 50%;
+}
 .btn {
 	display: block;
 	width: 100%;
@@ -87,11 +111,16 @@ button.btn.btn-info.upgrade-owned:first-child {
 }
 
 #achievements > table {
-	border-collapse: collapse;
+	overflow: hidden;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
 }
 
 #achievements > table tr {
-	background-color: rgba(255, 255, 255, .2);
+	background-color: rgba(255, 255, 255, 1);
 }
 #achievements > table tr:hover {
 	cursor: help;

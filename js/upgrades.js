@@ -1,185 +1,176 @@
 window.Upgrades = {
 
-	// Tier 1
 	'walking-shoes': {
 		'id': 'walking-shoes',
-		'tier': 1,
 		'description': '',
 		'name': 'Walking Shoes',
+		'speed': 1.38889,
 		'effect': function(){
 			
 		}
 	},
 	'quick-feet': {
 		'id': 'quick-feet',
-		'tier': 1,
 		'description': '',
 		'name': 'Quick feet',
+		'speed': 2.22,
 		'effect': function(){
 			
 		}
 	},
 	'roller-skates': {
 		'id': 'roller-skates',
-		'tier': 1,
 		'description': '',
 		'name': 'Roller Skates',
+		'speed': 2.78,
 		'effect': function(){
 			
 		}
 	},
 	'skateboard': {
 		'id': 'skateboard',
-		'tier': 1,
 		'description': '',
 		'name': 'Skateboard',
+		'speed': 3.12,
 		'effect': function(){
 			
 		}
 	},
 	'unicycle': {
 		'id': 'unicycle',
-		'tier': 1,
 		'description': '',
 		'name': 'Unicycle',
-		'effect': function(){
-			
-		}
-	},
-	'horse': {
-		'id': 'horse',
-		'tier': 1,
-		'description': '',
-		'name': 'Horse',
+		'speed': 3.57,
 		'effect': function(){
 			
 		}
 	},
 	'hot-air-balloon': {
 		'id': 'hot-air-balloon',
-		'tier': 1,
 		'description': '',
 		'name': 'Hot Air Balloon',
+		'speed': 5,
 		'effect': function(){
 			
-		}
+		},
+		'required': 'basicmath'
 	},
-
-	// Tier 2
 	'bicycle': {
 		'id': 'bicycle',
-		'tier': 2,
 		'description': '',
 		'name': 'Bicycle',
+		'speed': 15.67,
 		'effect': function(){
 			
 		}
 	},
-	'canoe': {
-		'id': 'canoe',
-		'tier': 2,
+	'horse': {
+		'id': 'horse',
 		'description': '',
-		'name': 'Canoe',
+		'name': 'Horse',
+		'speed': 20.44,
 		'effect': function(){
 			
 		}
 	},
 	'hitch-hiking': {
 		'id': 'hitch-hiking',
-		'tier': 2,
 		'description': '',
 		'name': 'Hitch-hiking',
+		'speed': 20,
 		'effect': function(){
 			
 		}
 	},
-	'motorcycle': {
-		'id': 'motorcycle',
-		'tier': 2,
+	'submarine': {
+		'id': 'submarine',
 		'description': '',
-		'name': 'Motorcycle',
+		'name': 'Submarine',
+		'speed': 22.25,
 		'effect': function(){
 			
-		}
+		},
+		'required': 'appliedmathematics'
 	},
 	'jet-pack': {
 		'id': 'jet-pack',
-		'tier': 2,
 		'description': '',
 		'name': 'Jet-pack',
+		'speed': 25,
+		'effect': function(){
+			
+		},
+		'required': 'advancedmathematics'
+	},
+	'motorcycle': {
+		'id': 'motorcycle',
+		'description': '',
+		'name': 'Motorcycle',
+		'speed': 26.39,
 		'effect': function(){
 			
 		}
 	},
 	'car': {
 		'id': 'car',
-		'tier': 2,
 		'description': '',
 		'name': 'Car',
+		'speed': 33.33,
 		'effect': function(){
 			
 		}
 	},
 	'sports-car': {
 		'id': 'sports-car',
-		'tier': 2,
 		'description': '',
 		'name': 'Sports car',
+		'speed': 50,
 		'effect': function(){
 			
 		},
 	},
-	// Tier 3
-	'submarine': {
-		'id': 'submarine',
-		'tier': 3,
+	'train': {
+		'id': 'train',
 		'description': '',
-		'name': 'Submarine',
+		'name': 'Train',
+		'speed': 55.55,
+		'effect': function(){
+			
+		},
+		'required': 'advancedmathematicsii'
+	},
+	'high-speed-train': {
+		'id': 'high-speed-train',
+		'description': '',
+		'name': 'High-speed train',
+		'speed': 83.33,
 		'effect': function(){
 			
 		}
 	},
 	'ship': {
 		'id': 'ship',
-		'tier': 3,
 		'description': '',
 		'name': 'Ship',
-		'effect': function(){
-			
-		}
-	},
-	'train': {
-		'id': 'train',
-		'tier': 3,
-		'description': '',
-		'name': 'Train',
-		'effect': function(){
-			
-		}
-	},
-	'high-speed-train': {
-		'id': 'high-speed-train',
-		'tier': 3,
-		'description': '',
-		'name': 'High-speed train',
+		'speed': 100,
 		'effect': function(){
 			
 		}
 	},
 	'helicopter': {
 		'id': 'helicopter',
-		'tier': 3,
 		'description': '',
 		'name': 'Helicopter',
+		'speed': 111.11,
 		'effect': function(){
 			
 		}
 	},
 	'airplane': {
 		'id': 'airplane',
-		'tier': 3,
 		'description': '',
 		'name': 'Airplane',
+		'speed': 222.22,
 		'effect': function(){
 			
 		}
@@ -187,119 +178,98 @@ window.Upgrades = {
 	// Tier 4
 	'plane': {
 		'id': 'plane',
-		'tier': 4,
 		'description': '',
 		'name': 'Plane',
+		'speed': 263.89,
 		'effect': function(){
 			
 		}
 	},
 	'jet': {
 		'id': 'jet',
-		'tier': 4,
 		'description': '',
 		'name': 'Jet',
+		'speed': 320.55,
 		'effect': function(){
 			
 		}
 	},
 	'rocket': {
 		'id': 'rocket',
-		'tier': 4,
 		'description': '',
 		'name': 'Rocket',
+		'speed': 750.27,
 		'effect': function(){
 			
-		}
+		},
+		'required': 'commutativealgebra'
 	},
 	'spaceship': {
 		'id': 'spaceship',
-		'tier': 4,
 		'description': '',
 		'name': 'Space ship',
+		'speed': 4300,
 		'effect': function(){
 			
-		}
+		},
+		'required': 'calculusofvariations'
 	},
 
 	// Tier X
 	'portal': {
 		'id': 'portal',
-		'tier': 10,
 		'description': '',
 		'name': 'Portal',
+		'speed': 5700.32,
 		'effect': function(){
 			
-		}
+		},
+		'required': 'ergodictheory'
 	},
 	'teleport': {
 		'id': 'teleport',
-		'tier': 10,
 		'description': '',
 		'name': 'Teleport',
+		'speed': 6400.12,
 		'effect': function(){
 			
-		}
+		},
+		'required': 'probabilitytheory'
 	},
 	'wormhole': {
 		'id': 'wormhole',
-		'tier': 10,
 		'description': '',
 		'name': 'Wormhole',
+		'speed': 9010,
 		'effect': function(){
 			
-		}
-	},
-	'nickerwersfeet': {
-		'id': 'nickerwersfeet',
-		'tier': 10,
-		'description': '',
-		'name': 'Nickerwer\'s feet',
-		'effect': function(){
-			
-		}
-	},
-	'nickerwerscar': {
-		'id': 'nickerwerscar',
-		'tier': 10,
-		'description': '',
-		'name': 'Nickerwer\'s car',
-		'effect': function(){
-			
-		}
-	},
-	'nickerwersmind': {
-		'id': 'nickerwersmind',
-		'tier': 10,
-		'description': '',
-		'name': 'Nickerwer\'s mind',
-		'effect': function(){
-			
-		}
+		},
+		'required': 'fluidmechanics'
 	},
 	'thejonda': {
 		'id': 'thejonda',
-		'tier': 11,
 		'description': '',
 		'name': 'The Jonda',
+		'speed': 12000.13,
 		'effect': function(){
 			
-		}
+		},
+		'required': 'theoryofrelativity'
 	},
 	'falismind': {
 		'id': 'falismind',
-		'tier': 11,
 		'description': '',
 		'name': 'Fali\'s mind',
+		'speed': 15000.99,
 		'effect': function(){
 			
 		}
 	},
 	'falisabstraction': {
 		'id': 'falisabstraction',
-		'tier': 11,
 		'description': '',
 		'name': 'Fali\'s abstraction',
+		'speed': 200000.99,
 		'effect': function(){
 			
 		}
