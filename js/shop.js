@@ -12,61 +12,61 @@ Shop.learnings = {
 	'appliedmathematics': {
 		'name': 'Applied mathematics',
 		'multiplierIncrement': .5,
-		'cost': '00:15:00',
+		'cost': '01:00:00',
 		'shortName': '∑'
 	},
 	'advancedmathematics': {
 		'name': 'Advanced Mathematics',
 		'multiplierIncrement': 1,
-		'cost': '00:20:00',
+		'cost': '01:20:00',
 		'shortName': '⨋'
 	},
 	'advancedmathematicsii': {
 		'name': 'Advanced Mathematics II',
 		'multiplierIncrement': 1,
-		'cost': '00:30:00',
+		'cost': '03:30:00',
 		'shortName': '∰'
 	},
 	'commutativealgebra': {
 		'name': 'Commutative algebra',
 		'multiplierIncrement': 1.3,
-		'cost': '03:00:00',
+		'cost': '06:00:00',
 		'shortName': '∈'
 	},
 	'calculusofvariations': {
 		'name': 'Calculus of variations',
 		'multiplierIncrement': 1.3,
-		'cost': '4:30:00',
+		'cost': '14:30:00',
 		'shortName': 'Φ'
 	},
 	'ergodictheory': {
 		'name': 'Ergodic theory',
 		'multiplierIncrement': 2,
-		'cost': '6:15:00',
+		'cost': '26:15:00',
 		'shortName': 'ψ'
 	},
 	'probabilitytheory': {
 		'name': 'Probability theory',
 		'multiplierIncrement': 2.3,
-		'cost': '8:30:00',
+		'cost': '100:30:00',
 		'shortName': 'Ω'
 	},
 	'statistics': {
 		'name': 'Statistics',
 		'multiplierIncrement': 1.6,
-		'cost': '10:00:00',
+		'cost': '3200:00:00',
 		'shortName': 'σ'
 	},
 	'fluidmechanics': {
 		'name': 'Fluid mechanics',
 		'multiplierIncrement': 2,
-		'cost': '12:30:00',
+		'cost': '120000:30:00',
 		'shortName': '∇'
 	},
 	'theoryofrelativity': {
 		'name': 'Theory of relativity',
 		'multiplierIncrement': 3,
-		'cost': '24:00:00',
+		'cost': '940000:00:00',
 		'shortName': 'E = mc²'
 	},
 }
@@ -338,11 +338,13 @@ Shop.initShop = function(){
 		Shop.learnings[id].buy = Shop.buy.bind(Shop.learnings[id])
 		Shop.learnings[id].show = Shop.show.bind(Shop.learnings[id])
 		Shop.learnings[id].calcCost = Shop.calcTimeCost.bind(Shop.learnings[id])
+		Shop.learnings[id].lengthCost = Shop.learnings[id].calcCost()
 		Shop.learnings[id].learn = Shop.learn.bind(Shop.learnings[id])
 		Shop.learnings[id].owned = false
 		Shop.learnings[id].visible = false
 		Shop.learnings[id].id = id
 	}
+	console.log('---------')
 	for(var id in Shop.perks){
 		// Add methods and attributes
 		Shop.perks[id].unlock = Shop.unlockPerk.bind(Shop.perks[id])
