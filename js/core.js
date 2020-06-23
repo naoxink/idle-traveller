@@ -129,25 +129,6 @@ Core.updateHUD = function(){
 	}else{
           Core._btnRest.innerHTML = 'Rest'
     }
-    // Control de horario de tienda
-    const shopSchedule = [
-    	[ 8, 14 ],
-    	[ 16, 22 ]
-    ]
-    const thisHour = new Date().getHours()
-    if(
-    	thisHour < shopSchedule[0][0] ||
-    	(thisHour > shopSchedule[0][1] && thisHour < shopSchedule[1][0]) ||
-    	thisHour > shopSchedule[1][1]
-    ){
-    	if(Shop._perks.className !== 'closed'){
-    		Shop._perks.className = 'closed'
-    	}
-    }else{
-    	if(Shop._perks.className !== 'open'){
-    		Shop._perks.className = 'open'
-    	}
-    }
 }
 
 Core.get = function(selector){

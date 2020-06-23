@@ -5,23 +5,6 @@
 	padding: 10px;
 	border-bottom: 1px solid rgba(0, 0, 0, .2);
 }
-#perks.closed {
-	position: relative;
-}
-#perks.closed:after {
-	position: absolute;
-	top: -70px;
-	bottom: -20px;
-	left: -20px;
-	right: -20px;
-	background-color: rgba(0, 0, 0, .8);
-	color: white;
-	content: 'Shop closed. \A\A Schedule: 08:00 - 14:00, 16:00 - 22:00';
-	white-space: pre;
-	text-align: center;
-	font-weight: bold;
-	padding-top: 50%;
-}
 .btn {
 	display: block;
 	width: 100%;
