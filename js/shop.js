@@ -79,7 +79,7 @@ Shop.perks = {
 	},
 	'aerodynamics': {
 		'name': 'Aerodynamics',
-		'description': 'Increases the current speed (35%) but deactivates the boost bar',
+		'description': 'Increases the current speed (50%) but deactivates the boost bar',
 		'cost': '04:00:00'
 	},
 	'autopilot': {
