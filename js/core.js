@@ -24,7 +24,7 @@ Core.loop = function(){
 		var inc = (Stats.increment * Stats.multiplier) * (delta / 1000)
 		Core.extraInc = 0
 		if(Stats.activePerk === 'aerodynamics'){
-			Core.extraInc += inc * 0.35
+			Core.extraInc += inc * 1
 		}else{
 			var bbinc = inc + Core.extraInc
 			if(Stats.activePerk === 'autoturbo'){
