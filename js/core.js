@@ -465,9 +465,9 @@ Core.boost = function(){
 	Stats.totalLength += boost
 	Stats.boostbar = 0
 	if(Stats.activePerk === 'littleboosts'){
-		Stats.boostbarMax += boost * 1.5
+		Stats.boostbarMax += boost * 0.5
 	}else{
-		Stats.boostbarMax += boost * 3
+		Stats.boostbarMax += boost
 	}
 	Stats.boostbarTimesFilled++
 	Core.updateHUD()
