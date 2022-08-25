@@ -374,7 +374,7 @@ Core.addUpgrade = function(upgrade){
 }
 
 Core.calcNextUpgradeCost = function(){
-	Stats.nextUpgradeCost *= 1.5 + (Stats.upgrades.length / 100)
+	Stats.nextUpgradeCost *= 0.5 + ((Stats.upgrades.length / 100) + 1)
 }
 
 Core.isArray = function(item){
