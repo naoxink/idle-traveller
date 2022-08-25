@@ -54,19 +54,19 @@ Shop.learnings = {
 	'statistics': {
 		'name': 'Statistics',
 		'multiplierIncrement': 1.6,
-		'cost': '3200:00:00',
+		'cost': '500:00:00',
 		'shortName': 'σ'
 	},
 	'fluidmechanics': {
 		'name': 'Fluid mechanics',
 		'multiplierIncrement': 2,
-		'cost': '120000:30:00',
+		'cost': '1200:30:00',
 		'shortName': '∇'
 	},
 	'theoryofrelativity': {
 		'name': 'Theory of relativity',
 		'multiplierIncrement': 3,
-		'cost': '940000:00:00',
+		'cost': '2000:00:00',
 		'shortName': 'E = mc²'
 	},
 }
