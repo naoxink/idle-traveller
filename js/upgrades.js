@@ -274,5 +274,13 @@ window.Upgrades = {
 			
 		}
 	},
+	'superspeed': {
+		'id': 'superspeed',
+		'description': '',
+		'name': 'Super speed',
+		'speed': 250000.99,
+		'effect': function(){
+
+		}
 
 } // End upgrades
