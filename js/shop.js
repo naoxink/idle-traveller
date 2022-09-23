@@ -90,7 +90,7 @@ Shop.perks = {
 	'autopilotii': {
 		'name': 'Autopilot II',
 		'description': 'Reduces current speed (-10%) but you keep travelling (at 100% of the current speed) while the game is closed',
-		'cost': '9603000:00:00'
+		'cost': '96030:00:00'
 	},
 	'autoturbo': {
 		'name': 'Autoturbo',
