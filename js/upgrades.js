@@ -282,5 +282,6 @@ window.Upgrades = {
 		'effect': function(){
 
 		}
+	},
 
 } // End upgrades
