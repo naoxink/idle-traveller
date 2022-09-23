@@ -2,7 +2,7 @@ Achievements = {
 	'fly-like-a-bubble': {
 		'name': 'Fly like a bubble',
 		'description': 'Get an hot-air balloon',
-		'multiplierIncrement': 2,
+		'multiplierIncrement': 5,
 		'check': function(){
 			return Core.hasUpgrade('hot-air-balloon')
 		}
@@ -10,7 +10,7 @@ Achievements = {
 	'speed-limit': {
 		'name': 'Speed limit',
 		'description': 'Rebase the 61 m/s',
-		'multiplierIncrement': .5,
+		'multiplierIncrement': 5,
 		'check': function(){
 			return Stats.increment * Stats.multiplier >= 61
 		}
@@ -50,7 +50,7 @@ Achievements = {
   'boostx5': {
     'name': 'Boosted x5',
     'description': 'Use the boost bar 5 times',
-    'multiplierIncrement': 1,
+    'multiplierIncrement': 2,
     'check': function(){
       return Stats.boostbarTimesFilled >= 5
     }
@@ -58,7 +58,7 @@ Achievements = {
   'boostx15': {
     'name': 'Boosted x15',
     'description': 'Use the boost bar 15 times',
-    'multiplierIncrement': 2,
+    'multiplierIncrement': 5,
     'check': function(){
       return Stats.boostbarTimesFilled >= 15
     }
@@ -66,7 +66,7 @@ Achievements = {
   'boostx50': {
     'name': 'Boosted x50',
     'description': 'Use the boost bar 50 times',
-    'multiplierIncrement': 5,
+    'multiplierIncrement': 20,
     'check': function(){
       return Stats.boostbarTimesFilled >= 50
     }
@@ -98,7 +98,7 @@ Achievements = {
   'jonda': {
     'name': 'In da Jonda',
     'description': 'Get in the Jonda',
-    'multiplierIncrement': 5,
+    'multiplierIncrement': 50,
     'check': function(){
       return Core.hasUpgrade('thejonda')
     }

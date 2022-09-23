@@ -15,6 +15,7 @@ Core.init = function(){
 	Stats.runStartDate = new Date()
 	Stats.sessionStart = new Date()
 	Core._runStart.innerHTML = Stats.runStartDate.toString()
+	Core.unlockSections()
 }
 
 Core.loop = function(){
@@ -39,7 +40,7 @@ Core.loop = function(){
 			Core.extraInc -= inc * 0.7
 		}
 
-		Stats.totalLength += inc + Core.extraInc
+		Stats.totalLength += (inc + Core.extraInc) * Stats.megamultiplier
 		Core.updateHUD()
 		Core.end = new Date()
 		Core.loop()
@@ -58,12 +59,9 @@ Core.updateHUD = function(){
 	Shop.updateShowingItemCost()
 	Shop.updateShowingPerksCost()
 	Core._length.innerHTML = Core.formatLength(Stats.totalLength)
-	var lengthDetailStr = ''
-	if(Stats.multiplier === 1){
-		lengthDetailStr = Core.formatLength(Stats.increment) + '/s'
-	}else if(Stats.multiplier > 1){
-		 lengthDetailStr = Core.formatLength(Stats.increment * Stats.multiplier) 
-		 + '/s (' + Core.formatLength(Stats.increment) 
+	let lengthDetailStr = ''
+	if(Stats.multiplier > 1){
+		 lengthDetailStr = '/s (' + Core.formatLength(Stats.increment)
 		 + '/s x' + parseFloat(Stats.multiplier).toFixed(1) + ')'
 	}
 	if(Stats.activePerk === 'aerodynamics'){
@@ -71,26 +69,37 @@ Core.updateHUD = function(){
 	}else if(Stats.activePerk === 'autopilot'){
 		lengthDetailStr += ' - Autopilot (' + Core.formatLength(Core.extraInc * -1) + ')'
 	}
-	Core._lengthDetail.innerHTML = lengthDetailStr
+	Core._lengthDetail.innerHTML = Core.formatLength((Stats.increment * Stats.multiplier) * Stats.megamultiplier) + '/s ' + lengthDetailStr
+	Core._megamultiplier.innerHTML = Stats.megamultiplier > 1 ? ` x${Stats.megamultiplier}`: ''
 	Core.get('#info #session-time').innerHTML = Core.timeFormat(new Date() - Stats.sessionStart.getTime())
 	// Mejoras visibles
-	var visibleUpgrades = Core.get('#upgrades .upgrade')
+	let visibleUpgrades = Core.get('#upgrades .upgrade')
 	if(Core.isNode(visibleUpgrades)){
 		visibleUpgrades = [ visibleUpgrades ]
 	}
-	for(var i = 0, len = visibleUpgrades.length; i < len; i++){
+	for(let i = 0, len = visibleUpgrades.length; i < len; i++){
 		// Eliminar las que ya tiene
 		if(Core.hasUpgrade(visibleUpgrades[i].getAttribute('id'))){
 			visibleUpgrades[i].parentNode.removeChild(visibleUpgrades[i])
 		}
 		// Controlar coste
-		var hasRequiredLearning = !visibleUpgrades[i].getAttribute('data-required') || (visibleUpgrades[i].getAttribute('data-required') && Stats.learnings.indexOf(visibleUpgrades[i].getAttribute('data-required')) !== -1)
+		let hasRequiredLearning = !visibleUpgrades[i].getAttribute('data-required') || (visibleUpgrades[i].getAttribute('data-required') && Stats.learnings.indexOf(visibleUpgrades[i].getAttribute('data-required')) !== -1)
 		if(parseInt(visibleUpgrades[i].getAttribute('data-cost'), 10) < Stats.totalLength && hasRequiredLearning){
 			visibleUpgrades[i].removeAttribute('disabled')
 		}else{
 			visibleUpgrades[i].setAttribute('disabled', true)
 		}
 	}
+	// Shop stuff
+	$('.shop-stuff-item').each(function(){
+		const id = $(this).data('id')
+		if(Stats.stuff.includes(id)){
+			$(this).find('button').remove()
+		}
+		if(!$('button', this).length) return
+		const cost = parseInt($(this).data('cost'), 10)
+		$(this).find('button').prop('disabled', Stats.totalLength < cost)
+	})
 	// Calcular % del boostbar
 	if(Stats.boostbar >= 100){
 		if(Stats.activePerk === 'autoturbo'){
@@ -127,8 +136,8 @@ Core.updateHUD = function(){
 	if(m > 0 && m.toFixed(1) !== '0.0'){
 		Core._btnRest.innerHTML = 'Rest (multiplier +' + m.toFixed(1) + ')'
 	}else{
-          Core._btnRest.innerHTML = 'Rest'
-    }
+    Core._btnRest.innerHTML = 'Rest'
+  }
 }
 
 Core.get = function(selector){
@@ -169,9 +178,11 @@ Core.save = function(){
 	window.localStorage.setItem('totalLength', Stats.totalLength)
 	window.localStorage.setItem('increment', Stats.increment)
 	window.localStorage.setItem('multiplier', Stats.multiplier)
+	window.localStorage.setItem('megamultiplier', Stats.megamultiplier)
 	window.localStorage.setItem('upgrades', JSON.stringify(Stats.upgrades))
 	window.localStorage.setItem('learnings', JSON.stringify(Stats.learnings))
 	window.localStorage.setItem('perks', JSON.stringify(Stats.perks))
+	window.localStorage.setItem('stuff', JSON.stringify(Stats.stuff))
 	window.localStorage.setItem('runStartDate', Stats.runStartDate)
 	window.localStorage.setItem('nextUpgradeCost', Stats.nextUpgradeCost)
 	window.localStorage.setItem('activePerk', Stats.activePerk)
@@ -210,10 +221,12 @@ Core.load = function(){
 		Stats.totalLength = parseFloat(window.localStorage.getItem('totalLength'))
 		Stats.increment = parseFloat(window.localStorage.getItem('increment'))
 		Stats.multiplier = parseFloat(window.localStorage.getItem('multiplier'))
+		Stats.megamultiplier = parseFloat(window.localStorage.getItem('megamultiplier') || 1)
 		Stats.runStartDate = new Date(window.localStorage.getItem('runStartDate'))
 		Stats.upgrades = JSON.parse(window.localStorage.getItem('upgrades'))
 		Stats.learnings = JSON.parse(window.localStorage.getItem('learnings'))
 		Stats.perks = JSON.parse(window.localStorage.getItem('perks'))
+		Stats.stuff = JSON.parse(window.localStorage.getItem('stuff')) || []
 		Stats.activePerk = window.localStorage.getItem('activePerk')
 		Stats.rests = parseInt(window.localStorage.getItem('rests'), 10)
 		Stats.nextUpgradeCost = parseFloat(window.localStorage.getItem('nextUpgradeCost'))
@@ -274,8 +287,10 @@ Core.load = function(){
 			var inc = (Stats.increment * Stats.multiplier) * (delta / 1000)
 			Stats.totalLength += inc * 0.15
 		}
+		Shop.initStuffItems()
 		Core.updateHUD()
 		Core.showLastRestDate()
+		Core.unlockSections()
 		Core.get('#run-start').innerHTML = Stats.runStartDate.toString()
 		notif({ 'type': 'success', 'msg': 'Game loaded!', 'position': 'center' })
 	}else{
@@ -284,6 +299,35 @@ Core.load = function(){
 			'msg': 'Invalid savegame',
 			'position': 'center'
 		})
+	}
+}
+
+Core.unlockSections = function(){
+	// Primero queremos ocultarlas todas (o casi todas)
+	for(let key in Core._sections){
+		$(Core._sections[key]).hide()
+	}
+
+	if(Core.hasUpgrade('skateboard') || Stats.perks.length || Stats.learnings.length || Stats.rests){
+		$(Core._sections.studies).show()
+	}
+	if(Stats.learnings.length){
+		$(Core._sections.studiesDone).show()
+	}
+	if(Shop.hasLearning('basicmath') || Stats.perks.length){
+		$(Core._sections.perks).show()
+	}
+	if(Stats.perks.length){
+		$(Core._sections.perksOwned).show()
+	}
+	for(let id in Achievements){
+		if(Achievements[id].done){
+			$(Core._sections.achievements).show()
+			break;
+		}
+	}
+	if(Core.hasUpgrade('train') || Stats.stuff.length){
+		$(Core._sections.stuff).show()
 	}
 }
 
@@ -362,11 +406,12 @@ Core.buyUpgrade = function(upgrade){
 	upgrade.visible = false
 	upgrade.owned = true
 	Stats.upgrades.push(upgrade.id)
-	
+
 	Core.calcNextUpgradeCost()
 
 	Core.addUpgrade(upgrade)
 	Core.unlockNextUpgrade(upgrade.id)
+	Core.unlockSections()
 }
 
 Core.addUpgrade = function(upgrade){
@@ -428,6 +473,9 @@ Core.unlockAchievement = function(achievement, silent){
 		.removeClass('locked')
 		.addClass('unlocked')
 		.removeClass('text-muted')
+	if(!$(Core._sections.achievements).is(':visible')){
+		$(Core._sections.achievements).show()
+	}
 	// $(achievement._element).find('td').html(achievement.name + ' (multiplier +' + (achievement.multiplierIncrement || 0) + ')')
 	if(!silent){
 		notif({
@@ -504,7 +552,7 @@ Core.calcMultiplier = function(){
 Core.rest = function(){
 	Stats.multiplier = Core.calcMultiplier()
 	Stats.totalLength = 0
-	Stats.increment = Permastats.incrementBase
+	Stats.increment = Stats.stuff.includes('purplestone') ? Stats.increment : Permastats.incrementBase
 	Stats.boostbar = 0
 	Stats.boostbarMax = Permastats.boostbarBaseMax
 	Stats.boostbarLength = 0
@@ -513,6 +561,7 @@ Core.rest = function(){
 	Core.resetUpgrades()
 	Core.resetLearnings()
 	Core.showLastRestDate()
+	Core.unlockSections()
 }
 
 Core.showLastRestDate = function(){
@@ -527,20 +576,24 @@ Core.showLastRestDate = function(){
 }
 
 Core.resetUpgrades = function(){
-	Stats.upgrades = [  ]
-	var upgradeBtns = Core.get('#upgrades-owned .upgrade-owned, #upgrades .upgrade')
-	if(Core.isNode(upgradeBtns)){
-		upgradeBtns = [ upgradeBtns ]
+	if(Stats.stuff.includes('purplestone')){
+		// Ole
+	}else{
+		Stats.upgrades = [  ]
+		var upgradeBtns = Core.get('#upgrades-owned .upgrade-owned, #upgrades .upgrade')
+		if(Core.isNode(upgradeBtns)){
+			upgradeBtns = [ upgradeBtns ]
+		}
+		for(var i = 0, len = upgradeBtns.length; i < len; i++){
+			upgradeBtns[i].parentNode.removeChild(upgradeBtns[i])
+		}
+		for(var upgrade in Upgrades){
+			Upgrades[upgrade].visible = false
+			Upgrades[upgrade].owned = false
+		}
+		Stats.nextUpgradeCost = 10
+		Core.unlockUpgrade('walking-shoes')
 	}
-	for(var i = 0, len = upgradeBtns.length; i < len; i++){
-		upgradeBtns[i].parentNode.removeChild(upgradeBtns[i])
-	}
-	for(var upgrade in Upgrades){
-		Upgrades[upgrade].visible = false
-		Upgrades[upgrade].owned = false
-	}
-	Stats.nextUpgradeCost = 10
-	Core.unlockUpgrade('walking-shoes')
 }
 
 Core.resetLearnings = function(){
@@ -570,12 +623,14 @@ Core.exportSave = function(){
 		Stats.boostbarTimesFilled,
 		Stats.increment,
 		Stats.multiplier,
+		Stats.megamultiplier,
 		Stats.rests,
 		Stats.runStartDate,
 		Stats.totalLength,
 		Stats.upgrades.join('|'),
 		Stats.learnings.join('|'),
 		Stats.perks.join('|'),
+		Stats.stuff.join('|'),
 		achievementsStrBin,
 		Stats.nextUpgradeCost,
 		Stats.activePerk
@@ -608,13 +663,15 @@ Core.importSave = function(){
 	Stats.boostbarTimesFilled = parseFloat(saveStr[4])
 	Stats.increment = parseFloat(saveStr[5])
 	Stats.multiplier = parseFloat(saveStr[6])
-	Stats.rests = parseFloat(saveStr[7])
-	Stats.runStartDate = new Date(saveStr[8])
-	Stats.totalLength = parseFloat(saveStr[9])
-	Stats.upgrades = saveStr[10].split('|')
-	Stats.learnings = saveStr[11].split('|')
-	Stats.perks = saveStr[12].split('|')
-	var achievementsStrBin = saveStr[13].split('')
+	Stats.megamultiplier = parseFloat(saveStr[7])
+	Stats.rests = parseFloat(saveStr[8])
+	Stats.runStartDate = new Date(saveStr[9])
+	Stats.totalLength = parseFloat(saveStr[10])
+	Stats.upgrades = saveStr[11].split('|')
+	Stats.learnings = saveStr[12].split('|')
+	Stats.perks = saveStr[13].split('|')
+	Stats.stuff = saveStr[14].split('|')
+	var achievementsStrBin = saveStr[15].split('')
 	var key = 0
 	for(var id in Achievements){
 		if(typeof achievementsStrBin[key] !== 'undefined'){
@@ -625,8 +682,8 @@ Core.importSave = function(){
 		}
 		key++
 	}
-	Stats.nextUpgradeCost = saveStr[14],
-	Stats.activePerk = saveStr[15],
+	Stats.nextUpgradeCost = saveStr[16]
+	Stats.activePerk = saveStr[17]
 	Core.save()
 	window.location.reload()
 }
@@ -655,3 +712,12 @@ Core._currentUpgrade = Core.get('#current-upgrade')
 Core._nextUpgradeName = Core.get('#next-upgrade-name')
 Core._nextUpgradeCost = Core.get('#next-upgrade-cost')
 Core._nextUpgradeRequired = Core.get('#next-upgrade-required')
+Core._megamultiplier = Core.get('#megamultiplier')
+Core._sections = {
+	studies: Core.get('#studies-section'),
+	studiesDone: Core.get('#studies-done-section'),
+	perks: Core.get('#perks-section'),
+	perksOwned: Core.get('#perks-owned-section'),
+	achievements: Core.get('#achievements-section'),
+	stuff: Core.get('#stuff-section'),
+}

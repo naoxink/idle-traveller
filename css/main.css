@@ -1,24 +1,24 @@
 .low-margin {
-	margin: 5px;
+    margin: 5px;
 }
 .row.perk {
-	padding: 10px;
-	border-bottom: 1px solid rgba(0, 0, 0, .2);
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
 }
 .btn {
-	display: block;
-	width: 100%;
-	cursor: pointer;
-	margin: 5px;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    margin: 5px;
 }
 .btn.perk-owned {
-	display: inline-block;
-	width: auto;
-	margin: 5px;
+    display: inline-block;
+    width: auto;
+    margin: 5px;
 }
 .nav {
-	background-color: #f4f4f4;
-	border-bottom: 1px solid rgba(0, 0, 0, .1);
+    background-color: #f4f4f4;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
 #length {
   padding: 10px;
@@ -30,90 +30,90 @@
   text-align: center;
 }
 ul#info {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 ul#info > li {
-	color: #333;
+    color: #333;
 }
 .section {
-	background-color: #f4f4f4;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-ms-border-radius: 5px;
-	-o-border-radius: 5px;
-	border-radius: 5px;
-	margin-top: 20px;
-	overflow: hidden;
+    background-color: #f4f4f4;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    margin-top: 20px;
+    overflow: hidden;
 }
 .section > .title {
-	padding: 10px;
-	background-color: rgba(0, 0, 0, .1);
-	color: #4E515E;
-	font-size: 1.2rem;
-	margin: 0;
-	cursor: pointer;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, .1);
+    color: #4E515E;
+    font-size: 1.2rem;
+    margin: 0;
+    cursor: pointer;
 }
 .section > .title.closed {
-	background-color: #CCC;
-	color: #333;
+    background-color: #CCC;
+    color: #333;
 }
 .section > .title.cloed:after {
-	content: 'Hidden';
-	color: white;
-	position: absolute;
-	top: 10px;
-	right: 10px;
+    content: 'Hidden';
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 .section > .content {
-	padding: 20px;
+    padding: 20px;
 }
 .length-content {
-	margin-top: 20px;
+    margin-top: 20px;
 }
 
 #upgrades .upgrade {
-	margin: 5px;
-	cursor: pointer;
+    margin: 5px;
+    cursor: pointer;
 }
 
 #upgrades-owned .upgrade-owned {
-	margin: 5px;
-	display: inline-block;
-	width: auto;
+    margin: 5px;
+    display: inline-block;
+    width: auto;
 }
 button.btn.btn-info.upgrade-owned {
-	background-color: #AAA;
-	border-color: #999;
+    background-color: #AAA;
+    border-color: #999;
 }
 
 button.btn.btn-info.upgrade-owned:first-child {
-	background-color: #5cb85c;
-	border: rgba(0, 0, 0, .1);
+    background-color: #5cb85c;
+    border: rgba(0, 0, 0, .1);
 }
 
 #achievements > table {
-	overflow: hidden;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-ms-border-radius: 5px;
-	-o-border-radius: 5px;
-	border-radius: 5px;
+    overflow: hidden;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
 }
 
 #achievements > table tr {
-	background-color: rgba(255, 255, 255, 1);
+    background-color: rgba(255, 255, 255, 1);
 }
 #achievements > table tr:hover {
-	cursor: help;
-	background-color: rgba(255, 255, 255, .5);
+    cursor: help;
+    background-color: rgba(255, 255, 255, .5);
 }
 
 #achievements > table tr > td {
-	border: 1px solid rgba(0, 0, 0, .1);
-	padding: 5px;
-	font-weight: 100;
+    border: 1px solid rgba(0, 0, 0, .1);
+    padding: 5px;
+    font-weight: 100;
 }
 
 .achievement-description,
@@ -121,157 +121,157 @@ button.btn.btn-info.upgrade-owned:first-child {
 .perk-ttc,
 .learning-description,
 .learning-ttc {
-	display: block;
-	color: rgba(0, 0, 0, .5);
+    display: block;
+    color: rgba(0, 0, 0, .5);
 }
 
 #achievements > table tr.unlocked {
-	background-color: #dff0d8;
-	border-color: #d0e9c6;
-	color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d0e9c6;
+    color: #3c763d;
 }
 
 #achievements > table tr.unlocked > td > .achievement-description {
-	color: #3c763d;
+    color: #3c763d;
 }
 
 #boostbar {
-	-webkit-transition: all .2s;
-	-o-transition: all .2s;
-	transition: all .2s;
-	position: relative;
-	padding: 20px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-ms-border-radius: 5px;
-	-o-border-radius: 5px;
-	border-radius: 5px;
-	border: 2px solid rgba(0, 0, 0, .1);
+    -webkit-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+    position: relative;
+    padding: 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    border: 2px solid rgba(0, 0, 0, .1);
 }
 #boostbar:before {
-	position: absolute;
-	font-size: 12px;
-	color: rgba(0, 0, 0, .5);
-	top: 13px;
-	right: -2px;
-	bottom: -2px;
-	left: -2px;
-	content: attr(data-length);
+    position: absolute;
+    font-size: 12px;
+    color: rgba(0, 0, 0, .5);
+    top: 13px;
+    right: -2px;
+    bottom: -2px;
+    left: -2px;
+    content: attr(data-length);
 }
 
 #boostbar.ready {
-	border: 2px solid rgba(0, 0, 0, .2);
-	cursor: pointer;
-	animation-name: pulse;
-	animation-duration: 2s;
-	animation-iteration-count: infinite;
-	animation-timing-function: ease-in-out;
+    border: 2px solid rgba(0, 0, 0, .2);
+    cursor: pointer;
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
 }
 
 #boostbar.ready:before {
-	color: #FFF;
+    color: #FFF;
 }
 
 .progress {
-	position: relative;
-	overflow: visible !important;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-ms-border-radius: 5px;
-	-o-border-radius: 5px;
-	border-radius: 5px;
+    position: relative;
+    overflow: visible !important;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .progress.disabled .progress-bar {
-	background-color: rgba(0, 0, 0, .1) !important;
+    background-color: rgba(0, 0, 0, .1) !important;
 }
 
 .progress:after {
-	content: attr(data-max);
-	position: absolute;
-	right: 5px;
-	top: 2px;
-	color: rgba(0, 0, 0, .3);
+    content: attr(data-max);
+    position: absolute;
+    right: 5px;
+    top: 2px;
+    color: rgba(0, 0, 0, .3);
 }
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes pulse {
-	0% {
-		background-color: rgba(0, 123, 255, 1);
-	}
-	50% {
-		background-color: rgba(0, 123, 255, .5);
-	}
-	100% {
-		background-color: rgba(0, 123, 255, 1);
-	}
+    0% {
+        background-color: rgba(0, 123, 255, 1);
+    }
+    50% {
+        background-color: rgba(0, 123, 255, .5);
+    }
+    100% {
+        background-color: rgba(0, 123, 255, 1);
+    }
 } 
 
 /* Standard syntax */ 
 @keyframes pulse {
-	0% {
-		background-color: rgba(0, 123, 255, 1);
-	}
-	50% {
-		background-color: rgba(0, 123, 255, .5);
-	}
-	100% {
-		background-color: rgba(0, 123, 255, 1);
-	}
+    0% {
+        background-color: rgba(0, 123, 255, 1);
+    }
+    50% {
+        background-color: rgba(0, 123, 255, .5);
+    }
+    100% {
+        background-color: rgba(0, 123, 255, 1);
+    }
 }
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes pulseRest {
-	0% {
-		background-color: rgba(0, 123, 255, 0);
-	}
-	50% {
-		background-color: rgba(0, 123, 255, .3);
-	}
-	100% {
-		background-color: rgba(0, 123, 255, 0);
-	}
+    0% {
+        background-color: rgba(0, 123, 255, 0);
+    }
+    50% {
+        background-color: rgba(0, 123, 255, .3);
+    }
+    100% {
+        background-color: rgba(0, 123, 255, 0);
+    }
 } 
 
 /* Standard syntax */ 
 @keyframes pulseRest {
-	0% {
-		background-color: rgba(0, 123, 255, 0);
-	}
-	50% {
-		background-color: rgba(0, 123, 255, .3);
-	}
-	100% {
-		background-color: rgba(0, 123, 255, 0);
-	}
+    0% {
+        background-color: rgba(0, 123, 255, 0);
+    }
+    50% {
+        background-color: rgba(0, 123, 255, .3);
+    }
+    100% {
+        background-color: rgba(0, 123, 255, 0);
+    }
 }
 
 #btn-rest {
-	position: relative;
-	background-color: transparent;
-	cursor: pointer;
-	color: #333;
-	border-color: rgba(0, 0, 0, .1);
-	display: block;
+    position: relative;
+    background-color: transparent;
+    cursor: pointer;
+    color: #333;
+    border-color: rgba(0, 0, 0, .1);
+    display: block;
         margin: 10px 10px 0 10px;
         width: calc(100% - 20px);
 }
 
 #btn-rest:before {
-	content: '';
-	position: absolute;
-	height: 100%;
-	background-color: rgba(159, 0, 255, 0.11);
-	top: 0;
-	left: 0;
-	width: attr(data-progress);
+    content: '';
+    position: absolute;
+    height: 100%;
+    background-color: rgba(159, 0, 255, 0.11);
+    top: 0;
+    left: 0;
+    width: attr(data-progress);
 }
 
 #btn-rest:hover {
-	animation-name: pulseRest;
-	animation-duration: 2s;
-	animation-iteration-count: infinite;
-	animation-timing-function: ease-in-out;
+    animation-name: pulseRest;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
 }
 .notifit_confirm_accept,
 .notifit_confirm_cancel {
@@ -281,25 +281,56 @@ button.btn.btn-info.upgrade-owned:first-child {
 }
 
 #export-save, #import-save {
-	position: fixed;
-	top: 50px;
-	width: 600px;
-	left: 50%;
-	margin-left: -300px;
-	background-color: #FFF;
-	padding: 10px;
-	overflow: hidden;
-	z-index: 1;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-ms-border-radius: 5px;
-	-o-border-radius: 5px;
-	border-radius: 5px;
-	border: 1px solid rgba(0, 0, 0, .2);
+    position: fixed;
+    top: 50px;
+    width: 600px;
+    left: 50%;
+    margin-left: -300px;
+    background-color: #FFF;
+    padding: 10px;
+    overflow: hidden;
+    z-index: 1;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, .2);
 }
 .navbar-brand {
-	color: #333;
+    color: #333;
 }
 .learning-owned {
     margin: 5px;
+}
+.shop-stuff-item {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, .05);
+    border: 1px solid rgba(0, 0, 0, .1);
+    margin: 5px 0 5px 0;
+}
+.shop-stuff-item button {
+    margin:  10px 0 10px 0;
+}
+.shop-stuff-item .label {
+    padding: 5px;
+    color: #333;
+}
+.shop-stuff-item .description {
+    padding: 5px;
+    color: #999;
+    font-style: italic;
+}
+.stuff-item {
+    display: inline-block;
+    background-color: rebeccapurple;
+    color: white;
+    text-align: center;
+    font-size: 2em;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: help;
 }

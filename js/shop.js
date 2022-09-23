@@ -15,7 +15,7 @@ Shop.learnings = {
 		'cost': '01:00:00',
 		'shortName': '∑'
 	},
-	'advancedmathematics': {
+	'advancedmathematics': {
 		'name': 'Advanced Mathematics',
 		'multiplierIncrement': 1,
 		'cost': '01:20:00',
@@ -102,6 +102,33 @@ Shop.perks = {
 		'description': 'Boostbar sounds when full',
 		'cost': '00:08:00'
 	}
+}
+
+Shop.stuff = {
+	'braceletofspeed': {
+		'icon': '⍜',
+		'label': 'Bracelet of speed',
+		'description': 'A mystic bracelet that gives you the power of bending space to travel twice as faster',
+		'cost': 4000000,
+		'effect': function(){
+			Stats.megamultiplier *= 2
+		}
+	},
+	'runeofthefastests': {
+		'icon': '⍝',
+		'label': 'Rune of the fastests',
+		'description': 'A mystic rune that gives you the power of the ancestors from space to travel twice as faster',
+		'cost': 6000000,
+		'effect': function(){
+			Stats.megamultiplier *= 2
+		}
+	},
+	'purplestone': {
+		'icon': '⌬',
+		'label': 'Purple Stone',
+		'description': 'The stone to rule the space-time. It gives you the hability to rest without loosing your upgrades nor speed',
+		'cost': 9000000
+	},
 }
 
 Shop.addButtonData = function(button, item){
@@ -229,12 +256,14 @@ Shop.buy = function(){
 	this.learn()
 	this.show()
 	Shop.unlockNextLearning(this.id)
+	Core.unlockSections()
 }
 Shop.buyPerk = function(){
 	var cost = this.calcCost()
 	if(cost > Stats.totalLength) return false
 	Stats.totalLength -= cost
 	this.getPerk()
+	Core.unlockSections()
 }
 Shop.hasLearning = function(id){
 	return Stats.learnings.indexOf(id) !== -1
@@ -243,6 +272,7 @@ Shop.learn = function(){
 	if(Stats.learnings.indexOf(this.id) === -1){
 		Stats.learnings.push(this.id)
 		this.owned = true
+		Core.unlockSections()
 	}
 }
 Shop.getPerk = function(){
@@ -264,7 +294,6 @@ Shop.calcTimeCost = function(){
 		var seconds = (parseInt(time[0], 10) * 60 * 60) + (parseInt(time[1], 10) * 60) + parseInt(time[2], 10)
 		cost = Permastats.incrementBase * seconds
 		this.lengthCost = cost
-		console.log(`${this.name}: ${Core.formatLength(cost)}`)
 		return cost
 	}
 }
@@ -309,7 +338,7 @@ Shop.activate = function(){
 					buttons.forEach(function(button){
 						button.innerHTML = button.innerHTML.replace('(Active)', '')
 					})
-					perk.button.innerHTML = perk.name + ' (Active)'
+					perk.button.innerHTML = perk.name + ' (Active)'
 				}
 			}
 		})
@@ -317,7 +346,7 @@ Shop.activate = function(){
 		$('.perk-owned').removeClass('btn-success').addClass('btn-default')
 		$(perk.button).addClass('btn-success')
 
-		perk.button.innerHTML = perk.name + ' (Active)'
+		perk.button.innerHTML = perk.name + ' (Active)'
 	}
 }
 Shop.deactivate = function(){
@@ -349,7 +378,7 @@ Shop.initShop = function(){
 		Shop.learnings[id].visible = false
 		Shop.learnings[id].id = id
 	}
-	console.log('---------')
+
 	for(var id in Shop.perks){
 		// Add methods and attributes
 		Shop.perks[id].unlock = Shop.unlockPerk.bind(Shop.perks[id])
@@ -364,6 +393,62 @@ Shop.initShop = function(){
 		Shop.perks[id].id = id
 		Shop.perks[id].unlock()
 	}
+
+	Shop.initStuffItems()
+}
+
+Shop.initStuffItems = function(){
+	Shop._stuff.innerHTML = ''
+	for(let id in Shop.stuff){
+		Shop.showStuffItemButton(id)
+	}
+	Shop.initStuffShelf()
+}
+
+Shop.initStuffShelf = function(){
+	Shop._stuffShelf.innerHTML = ''
+	Stats.stuff.forEach(id => {
+		const _stuffItem = document.createElement('div')
+		_stuffItem.className = 'stuff-item'
+		_stuffItem.innerHTML = Shop.stuff[id].icon
+		_stuffItem.setAttribute('title', Shop.stuff[id].label + ': ' + Shop.stuff[id].description)
+		Shop._stuffShelf.appendChild(_stuffItem)
+	})
+}
+
+Shop.showStuffItemButton = function(id){
+	// Si ya lo tenemos no se muestra
+	if(Stats.stuff.includes(id)) return false
+
+	const item = Shop.stuff[id]
+	const _col = document.createElement('div')
+	_col.className = 'col-6 col-sm-12 col-md-12 col-lg-6'
+	const _div = document.createElement('div')
+	_div.className = 'shop-stuff-item'
+	$(_div).data('cost', item.cost)
+	$(_div).data('id', id)
+	const _label = document.createElement('div')
+	_label.className = 'label'
+	_label.innerHTML = item.label
+	const _description = document.createElement('div')
+	_description.className = 'description'
+	_description.innerHTML = item.description
+	const _button = document.createElement('button')
+	_button.className = 'btn btn-primary'
+	_button.innerHTML = `Buy (${Core.formatLength(item.cost)})`
+	_button.onclick = function(){
+		if(Stats.totalLength < item.cost) return false
+		Stats.totalLength -= item.cost
+		Stats.stuff.push(id)
+		if(typeof item.effect === 'function') item.effect()
+		$(_button).remove()
+		Shop.initStuffItems()
+	}
+	_div.appendChild(_label)
+	_div.appendChild(_description)
+	_div.appendChild(_button)
+	_col.appendChild(_div)
+	Shop._stuff.appendChild(_col)
 }
 
 Shop._learnings = Core.get('#learnings')
@@ -373,3 +458,5 @@ Shop._perksOwned = Core.get('#perks-owned')
 Shop._nextLearningName = Core.get('#next-learning-name')
 Shop._nextLearningCost = Core.get('#next-learning-cost')
 Shop._nextLearningIncrement = Core.get('#next-learning-increment')
+Shop._stuff = Core.get('#shop-stuff')
+Shop._stuffShelf = Core.get('#stuff-shelf')

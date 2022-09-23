@@ -20,7 +20,7 @@
 <body>
 
 	<audio id="sound-system" src="sound/ding.mp3" autostart="false" ></audio>
-	
+
 	<ul class="nav justify-content-center">
 		<span class="navbar-brand">idle-traveller</span>
 
@@ -65,7 +65,10 @@
 			<div class="col-md-6 col-12 text-center">
 				<h1 class="length-content"><span id="length">0 mm</span></h1>
 				<p>Currently traveling: <span id="current-upgrade" class="text-success">Bare foot</span></p>
-				<p class="text-muted" id="length-detail">0 m/s</p>
+				<div>
+					<span class="text-muted" id="length-detail">0 m/s</span>
+					<span id="megamultiplier" class="text-info" title="Megamultiplier"></span>
+				</div>
 				<div class="progress" style="margin-left:10px;margin-right:10px;">
 					<div class="progress-bar bg-warning" id="boostbar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
@@ -101,7 +104,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="section">
+				<div class="section" id="studies-section">
 					<p class="title">Next Study</p>
 					<div class="content row">
 						<div class="col-8">
@@ -114,13 +117,13 @@
 						</div>
 					</div>
 				</div>
-				<div class="section">
+				<div class="section" id="perks-section">
 					<p class="title">Perks</p>
 					<div class="content">
 						<div id="perks"></div>
 					</div>
 				</div>
-				<div class="section">
+				<div class="section" id="achievements-section">
 					<p class="title">Achievements</p>
 					<div class="content">
 						<div id="achievements">
@@ -130,13 +133,22 @@
 				</div>
 			</div>
 			<div class="col-md-6 col-12">
-				<div class="section">
+				<div class="section" id="perks-owned-section">
 					<p class="title">Perks owned</p>
 					<div class="content">
 						<div id="perks-owned"></div>
 					</div>
 				</div>
-				<div class="section">
+				<div class="section" id="stuff-section">
+					<p class="title">Relics</p>
+					<div class="content">
+						<div class="row">
+							<div class="col-12" id="stuff-shelf"></div>
+						</div>
+						<div id="shop-stuff" class="row"></div>
+					</div>
+				</div>
+				<div class="section" id="studies-done-section">
 					<p class="title">Studies</p>
 					<div class="content">
 						<div id="learnings-owned"></div>
@@ -210,10 +222,10 @@
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	<!-- Game -->
 	<script src="js/achievements.js?1045"></script>
-	<script src="js/core.js?1045"></script>
-	<script src="js/stats.js?1045"></script>
-	<script src="js/upgrades.js?1045"></script>
-	<script src="js/shop.js?1045"></script>
-	<script src="js/main.js?1045"></script>
+	<script src="js/core.js?1046"></script>
+	<script src="js/stats.js?1046"></script>
+	<script src="js/upgrades.js?1046"></script>
+	<script src="js/shop.js?1046"></script>
+	<script src="js/main.js?1046"></script>
 </body>
 </html>

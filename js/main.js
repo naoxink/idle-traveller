@@ -16,7 +16,6 @@ Core.get('#import-save-confirm').addEventListener('click', Core.importSave)
 
 Core.get('#btn-rest').addEventListener('click', function(){
 	var mult = Core.calcMultiplier()
-	console.log(Stats.multiplier, mult)
 	if(!mult || mult <= Stats.multiplier){
 		msg = 'You will get <strong class="text-danger">no multiplier</strong>.<br>You need to travel more for it.'
 	}else{
