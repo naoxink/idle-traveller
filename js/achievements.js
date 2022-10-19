@@ -12,21 +12,21 @@ Achievements = {
 		'description': 'Rebase the 61 m/s',
 		'multiplierIncrement': 5,
 		'check': function(){
-			return Stats.increment * Stats.multiplier >= 61
+			return Stats.increment * Stats.multiplier * Stats.megamultiplier >= 61
 		}
 	},
 	'speed-of-light': {
 		'name': 'Speed of light',
 		'description': 'Reach the speed of light (299.79 Mm/s)',
-		'multiplierIncrement': 10,
+		'multiplierIncrement': 50,
 		'check': function(){
-			return Stats.increment * Stats.multiplier >= 299792000
+			return Stats.increment * Stats.multiplier * Stats.megamultiplier >= 299792000
 		}
 	},
 	'aperture-science': {
 		'name': 'Aperture Science',
 		'description': 'Travel trough portals',
-		'multiplierIncrement': 10,
+		'multiplierIncrement': 20,
 		'check': function(){
 			return Core.hasUpgrade('portal')
 		}
@@ -34,7 +34,7 @@ Achievements = {
 	'like-a-worm': {
 		'name': 'Like a worm',
 		'description': 'Cross a wormhole',
-		'multiplierIncrement': 10,
+		'multiplierIncrement': 50,
 		'check': function(){
 			return Core.hasUpgrade('wormhole')
 		}
@@ -42,7 +42,7 @@ Achievements = {
 	'unleash-the-mind': {
 		'name': 'Unleash the mind',
 		'description': '???',
-		'multiplierIncrement': 50,
+		'multiplierIncrement': 100,
 		'check': function(){
 			return Core.hasUpgrade('nickerwersmind')
 		}
