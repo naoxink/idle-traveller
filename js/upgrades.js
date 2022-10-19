@@ -230,7 +230,7 @@ window.Upgrades = {
 		'id': 'teleport',
 		'description': '',
 		'name': 'Teleport',
-		'speed': 6400.12,
+		'speed': 9400.12,
 		'effect': function(){
 			
 		},
@@ -240,7 +240,7 @@ window.Upgrades = {
 		'id': 'wormhole',
 		'description': '',
 		'name': 'Wormhole',
-		'speed': 9010,
+		'speed': 90100,
 		'effect': function(){
 			
 		},
@@ -250,7 +250,7 @@ window.Upgrades = {
 		'id': 'thejonda',
 		'description': '',
 		'name': 'The Jonda',
-		'speed': 12000.13,
+		'speed': 52000.13,
 		'effect': function(){
 			
 		},
@@ -260,7 +260,7 @@ window.Upgrades = {
 		'id': 'falismind',
 		'description': '',
 		'name': 'Fali\'s mind',
-		'speed': 15000.99,
+		'speed': 95000.99,
 		'effect': function(){
 			
 		}
