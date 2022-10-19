@@ -180,7 +180,7 @@ Shop.unlockLearning = function(){
 	Shop._nextLearningCost.innerHTML = Core.formatLength(this.calcCost())
 	Shop._nextLearningIncrement.innerHTML = this.multiplierIncrement
 	if(Stats.stuff.includes('stoneofknowledge')){
-		Shop._nextLearningIncrement.innerHTML += ` (SoK: +${this.multiplierIncrement})`
+		Shop._nextLearningIncrement.innerHTML = this.multiplierIncrement * 5
 	}
 	Shop._learnings.appendChild(button)
 	Shop.showingLearning = { 'learning': this, 'element': button }
@@ -265,7 +265,7 @@ Shop.buy = function(){
 	this.visible = false
 	Stats.totalLength -= cost
 	if(Stats.stuff.includes('stoneofknowledge')){
-		Stats.multiplier += this.multiplierIncrement ? this.multiplierIncrement * 2 : 0
+		Stats.multiplier += this.multiplierIncrement ? this.multiplierIncrement * 5 : 0
 	}else{
 		Stats.multiplier += this.multiplierIncrement || 0
 	}
