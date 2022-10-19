@@ -179,6 +179,9 @@ Shop.unlockLearning = function(){
 	Shop._nextLearningName.innerHTML = this.name
 	Shop._nextLearningCost.innerHTML = Core.formatLength(this.calcCost())
 	Shop._nextLearningIncrement.innerHTML = this.multiplierIncrement
+	if(Stats.stuff.includes('stoneofknowledge')){
+		Shop._nextLearningIncrement.innerHTML += ` (SoK: +${this.multiplierIncrement})`
+	}
 	Shop._learnings.appendChild(button)
 	Shop.showingLearning = { 'learning': this, 'element': button }
 }
