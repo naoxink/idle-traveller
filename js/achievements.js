@@ -44,7 +44,7 @@ Achievements = {
 		'description': '???',
 		'multiplierIncrement': 100,
 		'check': function(){
-			return Core.hasUpgrade('nickerwersmind')
+			return Core.hasUpgrade('falismind')
 		}
 	},
   'boostx5': {
