@@ -261,7 +261,11 @@ Shop.buy = function(){
 	if(cost > Stats.totalLength || Shop.hasLearning(this.id)) return false
 	this.visible = false
 	Stats.totalLength -= cost
-	Stats.multiplier += this.multiplierIncrement || 0
+	if(Stats.stuff.includes('stoneofknowledge')){
+		Stats.multiplier += this.multiplierIncrement ? this.multiplierIncrement * 2 : 0
+	}else{
+		Stats.multiplier += this.multiplierIncrement || 0
+	}
 	this.learn()
 	this.show()
 	Shop.unlockNextLearning(this.id)
