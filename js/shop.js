@@ -105,6 +105,15 @@ Shop.perks = {
 }
 
 Shop.stuff = {
+	'stoneofknowledge': {
+		'icon': 'κ',
+		'label': 'Stone of Knowledge',
+		'description': 'Having this stone means all your study rewards are multiplied by 5',
+		'cost': 1000000000,
+		'effect': function(){
+			// Multiplies every study * 5
+		}
+	},
 	'braceletofspeed': {
 		'icon': '⍜',
 		'label': 'Bracelet of speed',
