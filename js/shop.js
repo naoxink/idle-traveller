@@ -126,7 +126,7 @@ Shop.stuff = {
 	'purplestone': {
 		'icon': '⌬',
 		'label': 'Purple Stone',
-		'description': 'The stone to rule the space-time. It gives you the hability to rest without loosing your upgrades nor speed',
+		'description': 'The stone to rule the space-time. It gives you the ability to rest without losing your upgrades nor speed',
 		'cost': 9000000
 	},
 }
