@@ -63,18 +63,17 @@ Core.updateHUD = function(){
 	Shop.updateShowingItemCost()
 	Shop.updateShowingPerksCost()
 	Core._length.innerHTML = Core.formatLength(Stats.totalLength)
-	const incrementPerSecond = (Stats.increment * Stats.multiplier) * Stats.megamultiplier
 	let lengthDetailStr = ''
 	if(Stats.multiplier > 1){
-		 lengthDetailStr = '/s (' + Core.formatLength(Stats.increment)
+		 lengthDetailStr = ' (' + Core.formatLength(Stats.increment)
 		 + '/s x' + parseFloat(Stats.multiplier).toFixed(1) + ')'
 	}
 	if(Stats.activePerk === 'aerodynamics'){
-		lengthDetailStr += ' + Aerodynamics (' + Core.formatLength(incrementPerSecond) + ')'
+		lengthDetailStr += ' + Aerodynamics (' + Core.formatLength(Core.extraInc * 1000) + ')'
 	}else if(Stats.activePerk === 'autopilot'){
 		lengthDetailStr += ' - Autopilot (' + Core.formatLength(Core.extraInc * -1) + ')'
 	}
-	Core._lengthDetail.innerHTML = Core.formatLength(incrementPerSecond) + '/s ' + lengthDetailStr
+	Core._lengthDetail.innerHTML = Core.formatLength((Stats.increment * Stats.multiplier) * Stats.megamultiplier) + ' ' + lengthDetailStr
 	Core._megamultiplier.innerHTML = Stats.megamultiplier > 1 ? ` x${Stats.megamultiplier}`: ''
 	Core.get('#info #session-time').innerHTML = Core.timeFormat(new Date() - Stats.sessionStart.getTime())
 	// Mejoras visibles
