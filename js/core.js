@@ -45,8 +45,6 @@ Core.loop = function(){
 
 		Stats.totalLength += inc + Core.extraInc
 
-		console.log(Core.extraInc, inc, Stats.totalLength)
-
 		Core.updateHUD()
 		Core.end = new Date()
 		Core.loop()
@@ -65,17 +63,18 @@ Core.updateHUD = function(){
 	Shop.updateShowingItemCost()
 	Shop.updateShowingPerksCost()
 	Core._length.innerHTML = Core.formatLength(Stats.totalLength)
+	const incrementPerSecond = (Stats.increment * Stats.multiplier) * Stats.megamultiplier
 	let lengthDetailStr = ''
 	if(Stats.multiplier > 1){
 		 lengthDetailStr = '/s (' + Core.formatLength(Stats.increment)
 		 + '/s x' + parseFloat(Stats.multiplier).toFixed(1) + ')'
 	}
 	if(Stats.activePerk === 'aerodynamics'){
-		lengthDetailStr += ' + Aerodynamics (' + Core.formatLength(Core.extraInc) + ')'
+		lengthDetailStr += ' + Aerodynamics (' + Core.formatLength(incrementPerSecond) + ')'
 	}else if(Stats.activePerk === 'autopilot'){
 		lengthDetailStr += ' - Autopilot (' + Core.formatLength(Core.extraInc * -1) + ')'
 	}
-	Core._lengthDetail.innerHTML = Core.formatLength((Stats.increment * Stats.multiplier) * Stats.megamultiplier) + '/s ' + lengthDetailStr
+	Core._lengthDetail.innerHTML = Core.formatLength(incrementPerSecond) + '/s ' + lengthDetailStr
 	Core._megamultiplier.innerHTML = Stats.megamultiplier > 1 ? ` x${Stats.megamultiplier}`: ''
 	Core.get('#info #session-time').innerHTML = Core.timeFormat(new Date() - Stats.sessionStart.getTime())
 	// Mejoras visibles
