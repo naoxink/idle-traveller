@@ -20,7 +20,7 @@ Achievements = {
 		'description': 'Reach the speed of light (299.79 Mm/s)',
 		'multiplierIncrement': 50,
 		'check': function(){
-			return Stats.increment * Stats.multiplier * Stats.megamultiplier >= 299792000
+			return parseFloat(Core.formatLength((Stats.increment * Stats.multiplier) * Stats.megamultiplier)) >= 299.79
 		}
 	},
 	'aperture-science': {
@@ -109,6 +109,14 @@ Achievements = {
     'multiplierIncrement': 0,
     'check': function(){
       return Core.hasUpgrade('falismind')
+    }
+  },
+  'runelord': {
+    'name': 'Rune lover',
+    'description': 'Buy all runes in the game',
+    'multiplierIncrement': 50,
+    'check': function(){
+      return Stats.stuff.length === Object.keys(Shop.stuff).length
     }
   },
   'nowwhat': {
