@@ -22,11 +22,11 @@ Core.loop = function(){
 	Core.timer = setTimeout(function(){
 		var delta = (Core.end || new Date()) - new Date()
 			delta *= -1
-		var inc = (Stats.increment * Stats.multiplier) * (delta / 1000)
+		var inc = ((Stats.increment * Stats.multiplier) * Stats.megamultiplier) * (delta / 1000)
+
 		Core.extraInc = 0
-		if(Stats.activePerk === 'aerodynamics'){
-			Core.extraInc += inc * 1
-		}else{
+		// Boostbar
+		if(Stats.activePerk !== 'aerodynamics'){ // No incrementamos el boostbar con este perk activo
 			var bbinc = inc + Core.extraInc
 			if(Stats.activePerk === 'autoturbo'){
 				bbinc -= bbinc * 0.1
@@ -36,11 +36,15 @@ Core.loop = function(){
 			if(Stats.boostbar > 100) Stats.boostbar = 100
 		}
 
+		// Perk activo
 		if(Stats.activePerk === 'autopilot'){
 			Core.extraInc -= inc * 0.7
+		}else if(Stats.activePerk === 'aerodynamics'){
+			Core.extraInc += inc // +100%
 		}
 
-		Stats.totalLength += (inc + Core.extraInc) * Stats.megamultiplier
+		Stats.totalLength += inc + Core.extraInc
+
 		Core.updateHUD()
 		Core.end = new Date()
 		Core.loop()
