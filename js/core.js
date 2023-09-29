@@ -40,10 +40,12 @@ Core.loop = function(){
 		if(Stats.activePerk === 'autopilot'){
 			Core.extraInc -= inc * 0.7
 		}else if(Stats.activePerk === 'aerodynamics'){
-			Core.extraInc += inc // +100%
+			Core.extraInc += inc * 1 // +100%
 		}
 
 		Stats.totalLength += inc + Core.extraInc
+
+		console.log(Core.extraInc, inc, Stats.totalLength)
 
 		Core.updateHUD()
 		Core.end = new Date()
