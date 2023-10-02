@@ -69,7 +69,8 @@ Core.updateHUD = function(){
 		 + '/s x' + parseFloat(Stats.multiplier).toFixed(1) + ')'
 	}
 	if(Stats.activePerk === 'aerodynamics'){
-		lengthDetailStr += ' + Aerodynamics (' + Core.formatLength(Core.extraInc * 1000) + ')'
+		const aerodynamicsInc = (Stats.increment * Stats.multiplier) * Stats.megamultiplier;
+		lengthDetailStr += ' + Aerodynamics (' + Core.formatLength(aerodynamicsInc) + ')'
 	}else if(Stats.activePerk === 'autopilot'){
 		lengthDetailStr += ' - Autopilot (' + Core.formatLength(Core.extraInc * -1) + ')'
 	}
